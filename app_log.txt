@@ -1,0 +1,2412 @@
+[UDP] listening on 0.0.0.0:2338
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 84 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 92 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 84 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 150 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 191 spotter(s) found
+[LOOK] KI5IJM  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 234 spotter(s) found
+[LOOK] KR4JNS  country=USA  state=NC
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 244 spotter(s) found
+[LOOK] K5JCQ  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 245 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 229 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 149 spotter(s) found
+[LOOK] NN7W  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] N0TB  country=USA  state=MN
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 87 spotter(s) found
+[LOOK] KF0OVL  country=USA  state=CO
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] K5UUT  country=USA  state=TX
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 87 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 99 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 67 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOOK] WA2JQZ  country=USA  state=CO
+[LOOK] KJ5ADT  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 57 spotter(s) found
+[LOOK] N5VAC  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 86 spotter(s) found
+[LOOK] WD8ASA  country=USA  state=WY
+[LOOK] K7SP  country=USA  state=AZ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 100 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 138 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 132 spotter(s) found
+[LOOK] K7GSR  country=USA  state=UT
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] AA3AE  country=USA  state=AZ
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 126 spotter(s) found
+[LOOK] WD5FVQ  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOOK] K5ASM  country=USA  state=NM
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 110 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 115 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 57 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 30 spotter(s) found
+[LOOK] N7XAK  country=USA  state=AZ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 138 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 190 spotter(s) found
+[LOOK] KD0VUY  country=USA  state=CO
+[LOOK] KC5UKE  country=USA  state=NM
+[LOOK] NP3XF  country=USA  state=PR
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 209 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 220 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 228 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 101 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 45 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 31 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 26 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 15 spotter(s) found
+[LOOK] K0CAO  country=USA  state=NE
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 19 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 26 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 33 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KB8FLI  country=USA  state=AR
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 1 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 15 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 14 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 2 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 1 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 2 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 15 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 14 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 39 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KY0R  country=USA  state=CO
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 48 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 51 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 44 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 57 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 60 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 32 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 57 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 47 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOG] Parsed 15575 ADIF contact(s)
+[LOG] Loaded 15575 contact(s) from HRD Local Export 3-1-2026.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 15 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 19 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 35 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 15 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 16 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 39 spotter(s) found
+[LOOK] NF3R  country=USA  state=PA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 48 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 38 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] W5MCO  country=USA  state=NM
+[LOOK] KJ7SNQ  country=USA  state=UT
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 46 spotter(s) found
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 48 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 47 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 28 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 29 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 7 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 1 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 50 spotter(s) found
+[LOOK] N5DEN  country=USA  state=NM
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 70 spotter(s) found
+[LOOK] K7DF  country=USA  state=AZ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 86 spotter(s) found
+[LOOK] AA9JC  country=USA  state=IN
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 89 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 132 spotter(s) found
+[LOOK] K0IBM  country=USA  state=CO
+[LOOK] KF7AXE  country=USA  state=AZ
+[LOOK] W1AW/7  country=USA  state=-
+[LOOK] KA5ETS  country=USA  state=NC
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 139 spotter(s) found
+[LOOK] W7ZR  country=USA  state=NV
+[LOOK] N3QED  country=USA  state=KY
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 38 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 30 spotter(s) found
+[LOOK] W4DWS  country=USA  state=GA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: HTTPSConnectionPool(host='retrieve.pskreporter.info', port=443): Read timed out. (read timeout=20)
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 502 Server Error: Bad Gateway for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 502 Server Error: Bad Gateway for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 29 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 103 spotter(s) found
+[LOOK] KF0HEG  country=USA  state=CO
+[LOOK] N5SGK  country=USA  state=TX
+[LOOK] K7BOH  country=USA  state=ID
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 162 spotter(s) found
+[LOOK] W7WES  country=USA  state=UT
+[LOOK] K4GDJ  country=USA  state=FL
+[LOOK] KF8AEG  country=USA  state=OH
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 166 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KF0QGT  country=USA  state=CO
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 176 spotter(s) found
+[LOOK] NG7E/HR9  country=USA  state=-
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] WB0NRV  country=USA  state=CO
+[LOOK] W8SKF  country=USA  state=OH
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 180 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KE8TIJ  country=USA  state=OH
+[LOOK] K0RM  country=USA  state=CO
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOG] Parsed 15575 ADIF contact(s)
+[LOG] Loaded 15575 contact(s) from HRD Local Export 3-1-2026.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 228 spotter(s) found
+[LOOK] KE8X  country=USA  state=OH
+[LOOK] KF0TER  country=USA  state=CO
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOOK] NP3V  country=USA  state=PR
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 169 spotter(s) found
+[LOOK] AA7WI  country=USA  state=AZ
+[LOOK] KO3F  country=USA  state=MD
+[LOOK] KN4COE  country=USA  state=KY
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOOK] N0MKT  country=USA  state=CO
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 122 spotter(s) found
+[LOOK] NS2X  country=USA  state=TN
+[LOOK] KF0MZU  country=USA  state=CO
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 95 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 95 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 81 spotter(s) found
+[LOOK] KF8CGJ  country=USA  state=MI
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 81 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 18 spotter(s) found
+[LOOK] K7RPN  country=USA  state=OR
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 34 spotter(s) found
+[LOOK] K8LT  country=USA  state=NH
+[LOOK] WA3KKB  country=USA  state=PA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 84 spotter(s) found
+[LOOK] KE7DJB  country=USA  state=AZ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 112 spotter(s) found
+[LOOK] KD9VOG  country=USA  state=IN
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 127 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 148 spotter(s) found
+[LOOK] WA7YAZ  country=USA  state=UT
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 157 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 191 spotter(s) found
+[LOOK] KK4PJ  country=USA  state=FL
+[LOOK] K8DL  country=USA  state=OH
+[LOOK] KB7THX  country=USA  state=WA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] K6KBQ  country=USA  state=UT
+[LOOK] KE2NV  country=USA  state=NY
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 172 spotter(s) found
+[LOOK] N3AQ  country=USA  state=PA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 88 spotter(s) found
+[LOOK] K6LCN  country=USA  state=CA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 97 spotter(s) found
+[LOOK] WA3JAT  country=USA  state=OH
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 95 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 87 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KE5CVM  country=USA  state=TX
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 86 spotter(s) found
+[LOOK] KI6BWO  country=USA  state=CA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 59 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 56 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 53 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 29 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 11 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 1 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 0 spotter(s) found
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 502 Server Error: Bad Gateway for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 54 spotter(s) found
+[LOOK] N5OAO  country=USA  state=NM
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] KD0KQL  country=USA  state=CO
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 78 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 88 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 91 spotter(s) found
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[PSK] querying PSKReporter for NC4MH ...
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] 95 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 99 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 112 spotter(s) found
+[LOOK] W7FSI  country=USA  state=ID
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 69 spotter(s) found
+[LOOK] KB7ZLK  country=USA  state=UT
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 56 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 60 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 72 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 96 spotter(s) found
+[LOOK] K2BAG  country=USA  state=AZ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 100 spotter(s) found
+[LOOK] W5DDS  country=USA  state=TX
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 95 spotter(s) found
+[LOOK] W7HAD  country=USA  state=WY
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 155 spotter(s) found
+[LOOK] K1UHF  country=USA  state=FL
+[LOOK] AI9Q  country=USA  state=WA
+[LOOK] KD5USA  country=USA  state=AL
+[LOOK] NI3K  country=USA  state=PA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 210 spotter(s) found
+[LOOK] WX4DAT  country=USA  state=NC
+[LOOK] KI5AMZ  country=USA  state=OK
+[LOOK] KO6ALP  country=USA  state=CA
+[LOOK] KJ6LR  country=USA  state=UT
+[LOOK] N2AHT  country=USA  state=PA
+[LOOK] N0NEV  country=USA  state=NV
+[LOOK] AB5GU  country=USA  state=TX
+[LOOK] KR2C  country=USA  state=NJ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 214 spotter(s) found
+[LOOK] W0AIR  country=USA  state=CO
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 210 spotter(s) found
+[LOOK] K1HZ  country=USA  state=TX
+[LOOK] WW2N  country=USA  state=NY
+[LOOK] N9KW  country=USA  state=IL
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 196 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 196 spotter(s) found
+[LOOK] KM6WBI  country=USA  state=CA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] N6EMS  country=USA  state=CA
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 189 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 52 spotter(s) found
+[LOOK] N3AZ  country=USA  state=TX
+[LOOK] N6AJR  country=USA  state=CA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 32 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 31 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 60 spotter(s) found
+[LOOK] K8ZP  country=USA  state=VA
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 85 spotter(s) found
+[LOOK] AK4FL  country=USA  state=OH
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[LOOK] N1RR  country=USA  state=MA
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] 112 spotter(s) found
+[LOOK] W2QJ  country=USA  state=NJ
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
+[PSK] querying PSKReporter for NC4MH ...
+[PSK] fetch error: 503 Server Error: Service Unavailable for url: https://retrieve.pskreporter.info/query?senderCallsign=NC4MH&flowStartSeconds=-900&active=1
+[PSK] 0 spotter(s) found
+[LOG] Parsed 13566 ADIF contact(s)
+[LOG] Auto-loaded 13566 contact(s) from ExportAll.adi
