@@ -639,6 +639,10 @@ class AppState:
         self.mqtt_connected: bool          = False
         self._prev_mutual: set = set()     # GUI-thread only
 
+        # Contact probability engine
+        from predictor import ContactPredictor
+        self.predictor = ContactPredictor(MY_CALLSIGN)
+
     # -- worker-thread writers -------------------------------------------------
 
     def record_heard(self, cs: str, snr: int, mode: str) -> None:
@@ -745,6 +749,11 @@ def _udp_worker(state: AppState) -> None:
             for cs in _callsigns_in(pkt['message']):
                 if cs != MY_CALLSIGN:
                     state.record_heard(cs, pkt['snr'], mode)
+            # Feed raw message to contact predictor for activity tracking
+            try:
+                state.predictor.update_from_decode(pkt['message'], pkt['snr'])
+            except Exception:
+                pass
         elif pkt['type'] == _MSG_STATUS:
             state.set_band_mode(_freq_to_band(pkt['freq']), pkt['mode'])
 
@@ -894,6 +903,18 @@ class HamApp(tk.Tk):
               background=[('selected', '#226622')],
               foreground=[('selected', '#ffffff')])
 
+        # Contact Probability panel styles
+        s.configure('Prob.Treeview',
+                    background='#0e0e1e', foreground='#c0c8e0',
+                    fieldbackground='#0e0e1e', rowheight=22,
+                    font=('Courier', 9))
+        s.configure('Prob.Treeview.Heading',
+                    background='#14142a', foreground='#00b4d8',
+                    font=('Courier', 9, 'bold'), relief='flat')
+        s.map('Prob.Treeview',
+              background=[('selected', '#1a3a5a')],
+              foreground=[('selected', '#ffffff')])
+
     # -- layout ----------------------------------------------------------------
 
     def _build_ui(self) -> None:
@@ -968,6 +989,53 @@ class HamApp(tk.Tk):
                          padx=(4, 0), pady=(0, 4))
         msb.pack(side='right', fill='y', pady=(0, 4), padx=(0, 4))
 
+        # -- Contact Probability panel -------------------------------------------
+        pf = tk.LabelFrame(
+            self,
+            text='  Contact Probability  --  Who should I call?  ',
+            bg='#0e0e1e', fg='#00b4d8',
+            font=('Courier', 10, 'bold'), relief='groove', bd=2)
+        pf.pack(fill='both', expand=True, padx=8, pady=(4, 8))
+
+        self._prob_count = tk.StringVar(value='Analyzing...')
+        tk.Label(pf, textvariable=self._prob_count,
+                 bg='#0e0e1e', fg='#00b4d8', font=('Courier', 8)
+                 ).pack(anchor='e', padx=8)
+
+        self._ptree = ttk.Treeview(
+            pf,
+            columns=('rank', 'callsign', 'score', 'confidence', 'status',
+                     'snr_fwd', 'snr_rev', 'country', 'state', 'recommendation'),
+            show='headings', selectmode='none', style='Prob.Treeview')
+        for col, lbl, w in [
+            ('rank',           '#',              35),
+            ('callsign',       'Callsign',       95),
+            ('score',          'Score',           50),
+            ('confidence',     'Confidence',      80),
+            ('status',         'Status',          75),
+            ('snr_fwd',        'SNR->',           55),
+            ('snr_rev',        '<-SNR',           55),
+            ('country',        'Country',        100),
+            ('state',          'State',           50),
+            ('recommendation', 'Recommendation', 280),
+        ]:
+            self._ptree.heading(col, text=lbl)
+            self._ptree.column(col, width=w, anchor='center', stretch=True)
+        # Left-align recommendation
+        self._ptree.column('recommendation', anchor='w')
+
+        psb = ttk.Scrollbar(pf, orient='vertical', command=self._ptree.yview)
+        self._ptree.configure(yscrollcommand=psb.set)
+        self._ptree.pack(side='left', fill='both', expand=True,
+                         padx=(4, 0), pady=(0, 4))
+        psb.pack(side='right', fill='y', pady=(0, 4), padx=(0, 4))
+
+        # Tag colors for confidence levels
+        self._ptree.tag_configure('HIGH',     foreground='#2ecc71')
+        self._ptree.tag_configure('GOOD',     foreground='#00b4d8')
+        self._ptree.tag_configure('MODERATE', foreground='#f39c12')
+        self._ptree.tag_configure('LOW',      foreground='#e67e22')
+        self._ptree.tag_configure('UNLIKELY', foreground='#666688')
 
     # -- log file dialog -------------------------------------------------------
 
@@ -1071,6 +1139,57 @@ class HamApp(tk.Tk):
                                        state_s, country_s))
             displayed += 1
         self._mutual_count.set(f"{displayed} new mutual spot{'s' if displayed != 1 else ''}")
+
+        # -- Contact Probability panel -------------------------------------------
+        try:
+            self.state.predictor.expire_activity()
+            rankings = self.state.predictor.rank_stations(
+                heard, spotted_by, logged, band, cur_mode, top_n=20)
+
+            self._ptree.delete(*self._ptree.get_children())
+            for rank, entry in enumerate(rankings, 1):
+                cs = entry['callsign']
+                # Geo lookup (reuse cache from mutual panel)
+                with _cache_lock:
+                    geo = _lookup_cache.get(cs)
+                if geo is None:
+                    country = _prefix_country(cs)
+                    geo = {'state': '', 'country': country}
+                    with _cache_lock:
+                        _lookup_cache[cs] = geo
+                    if country == 'USA':
+                        with _lookup_queued_lock:
+                            if cs not in _lookup_queued:
+                                _lookup_queued.add(cs)
+                                _lookup_queue.put(cs)
+
+                fwd = f"{entry['heard_snr']:+d}" if entry.get('heard_snr') is not None else '-'
+                rev = f"{entry['spot_snr']:+d}" if entry.get('spot_snr') is not None else '-'
+                conf = entry['confidence']
+
+                self._ptree.insert('', 'end',
+                    values=(
+                        rank,
+                        cs,
+                        entry['score'],
+                        conf,
+                        entry['state'],
+                        fwd,
+                        rev,
+                        geo.get('country', ''),
+                        geo.get('state', ''),
+                        entry['recommendation'],
+                    ),
+                    tags=(conf,))
+
+            n = len(rankings)
+            high_n = sum(1 for r in rankings if r['confidence'] == 'HIGH')
+            good_n = sum(1 for r in rankings if r['confidence'] == 'GOOD')
+            self._prob_count.set(
+                f"{n} station{'s' if n != 1 else ''}  |  "
+                f"{high_n} HIGH  {good_n} GOOD")
+        except Exception as exc:
+            self._prob_count.set(f"Predictor error: {exc}")
 
         # -- log label (contact count + source desc) ---------------------------
         if has_log:
