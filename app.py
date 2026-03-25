@@ -1036,6 +1036,9 @@ class HamApp(tk.Tk):
         self._ptree.tag_configure('MODERATE', foreground='#f39c12')
         self._ptree.tag_configure('LOW',      foreground='#e67e22')
         self._ptree.tag_configure('UNLIKELY', foreground='#666688')
+        # Active connection — bright white on green background
+        self._ptree.tag_configure('ACTIVE',   foreground='#ffffff',
+                                  background='#1a6b1a')
 
     # -- log file dialog -------------------------------------------------------
 
@@ -1167,12 +1170,15 @@ class HamApp(tk.Tk):
                 rev = f"{entry['spot_snr']:+d}" if entry.get('spot_snr') is not None else '-'
                 conf = entry['confidence']
 
+                # Use ACTIVE tag for stations in direct contact with us
+                tag = 'ACTIVE' if entry['score'] >= 99 else conf
+
                 self._ptree.insert('', 'end',
                     values=(
                         rank,
                         cs,
                         entry['score'],
-                        conf,
+                        conf if entry['score'] < 99 else 'ACTIVE',
                         entry['state'],
                         fwd,
                         rev,
@@ -1180,7 +1186,7 @@ class HamApp(tk.Tk):
                         geo.get('state', ''),
                         entry['recommendation'],
                     ),
-                    tags=(conf,))
+                    tags=(tag,))
 
             n = len(rankings)
             high_n = sum(1 for r in rankings if r['confidence'] == 'HIGH')

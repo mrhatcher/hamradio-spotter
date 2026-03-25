@@ -60,6 +60,8 @@ STATE_IDLE = "IDLE"
 STATE_CQ = "CQ"
 STATE_IN_QSO = "IN_QSO"
 STATE_FINISHING = "FINISHING"
+STATE_CALLING_ME = "CALLING ME"       # They sent a message directed at my callsign
+STATE_QSO_WITH_ME = "QSO WITH ME"    # Active QSO exchange with my station
 
 # How long before state reverts to IDLE (seconds)
 ACTIVITY_TIMEOUT = 60.0
@@ -80,6 +82,10 @@ def _confidence_label(score: int) -> str:
 
 
 def _recommendation(score: int, state: str, has_mutual: bool) -> str:
+    if state == STATE_CALLING_ME:
+        return ">>> RESPONDING to your CQ! <<<"
+    if state == STATE_QSO_WITH_ME:
+        return ">>> ACTIVE QSO with you! <<<"
     if score >= 80:
         if state == STATE_CQ:
             return "Call now — CQing, strong mutual path"
@@ -222,15 +228,36 @@ class ContactPredictor:
         if parsed["is_73"] or parsed["is_rr73"]:
             # Station is finishing a QSO
             if from_call != self.my_call:
-                self._set_state(from_call, STATE_FINISHING, to_call,
-                                raw_message, ts, snr)
+                # If they sent 73/RR73 TO me, QSO completing with me
+                if to_call == self.my_call:
+                    self._set_state(from_call, STATE_QSO_WITH_ME, self.my_call,
+                                    raw_message, ts, snr)
+                else:
+                    self._set_state(from_call, STATE_FINISHING, to_call,
+                                    raw_message, ts, snr)
             if to_call and to_call != self.my_call:
-                self._set_state(to_call, STATE_FINISHING, from_call,
-                                raw_message, ts, snr)
+                if from_call == self.my_call:
+                    self._set_state(to_call, STATE_QSO_WITH_ME, self.my_call,
+                                    raw_message, ts, None)
+                else:
+                    self._set_state(to_call, STATE_FINISHING, from_call,
+                                    raw_message, ts, snr)
             return
 
         if parsed["is_report"]:
-            # Station is in a QSO
+            # Check if this exchange involves MY station
+            if to_call == self.my_call and from_call != self.my_call:
+                # They are sending a report TO me — active QSO with me
+                self._set_state(from_call, STATE_QSO_WITH_ME, self.my_call,
+                                raw_message, ts, snr)
+                return
+            if from_call == self.my_call and to_call and to_call != self.my_call:
+                # I am sending a report to them — active QSO with me
+                self._set_state(to_call, STATE_QSO_WITH_ME, self.my_call,
+                                raw_message, ts, None)
+                return
+
+            # Station is in a QSO with someone else
             if from_call != self.my_call:
                 self._set_state(from_call, STATE_IN_QSO, to_call,
                                 raw_message, ts, snr)
@@ -242,10 +269,25 @@ class ContactPredictor:
                                     raw_message, ts, None)
             return
 
+        # Check for any message directed at me (e.g., "NC4MH K1ABC FN31"
+        # or any unclassified message where to_call is my station)
+        if to_call == self.my_call and from_call and from_call != self.my_call:
+            cur = self.activity.get(from_call, {})
+            # If they were CQing and now calling me, upgrade to CALLING_ME
+            if cur.get("state") in (STATE_CQ, STATE_IDLE, None):
+                self._set_state(from_call, STATE_CALLING_ME, self.my_call,
+                                raw_message, ts, snr)
+            else:
+                self._set_state(from_call, STATE_QSO_WITH_ME, self.my_call,
+                                raw_message, ts, snr)
+            return
+
         # Generic decode — mark as active/idle
         if from_call != self.my_call:
             cur = self.activity.get(from_call, {})
-            if cur.get("state") not in (STATE_CQ, STATE_IN_QSO, STATE_FINISHING):
+            if cur.get("state") not in (STATE_CQ, STATE_IN_QSO,
+                                        STATE_FINISHING, STATE_CALLING_ME,
+                                        STATE_QSO_WITH_ME):
                 self._set_state(from_call, STATE_IDLE, "",
                                 raw_message, ts, snr)
 
@@ -302,11 +344,35 @@ class ContactPredictor:
         factors = {}
         total = 0
 
-        # ── 1. Activity Status (0-35) ───────────────────────────
+        # ── 1. Activity Status (0-35, or 99 for active connection) ─
         act = self.activity.get(callsign, {})
         state = act.get("state", STATE_IDLE)
         last_update = act.get("last_update", 0)
         activity_age = time.time() - last_update if last_update else 999
+
+        # Active connection with MY station — override to 99%
+        if state in (STATE_CALLING_ME, STATE_QSO_WITH_ME):
+            partner = act.get("directed_to", "")
+            if state == STATE_CALLING_ME:
+                label = "RESPONDING to your CQ!"
+            else:
+                label = "ACTIVE QSO with you!"
+            factors["activity"] = label
+            factors["reverse_path"] = "N/A — active connection"
+            factors["forward_path"] = "N/A — active connection"
+            factors["mutual"] = "Confirmed — direct exchange"
+            factors["novelty"] = "N/A"
+            conf = "HIGH"
+            rec = f">>> {label} <<<"
+            return {
+                "callsign": callsign,
+                "score": 99,
+                "confidence": conf,
+                "factors": factors,
+                "recommendation": rec,
+                "state": state,
+                "grid": act.get("grid", ""),
+            }
 
         if state == STATE_CQ and activity_age < 30:
             pts = 35
@@ -322,12 +388,8 @@ class ContactPredictor:
             factors["activity"] = f"Finished QSO {activity_age:.0f}s ago"
         elif state == STATE_IN_QSO:
             partner = act.get("directed_to", "")
-            if partner == self.my_call:
-                pts = 30  # They're talking to US
-                factors["activity"] = "In QSO with YOU"
-            else:
-                pts = 5
-                factors["activity"] = f"In QSO with {partner or '?'}"
+            pts = 5
+            factors["activity"] = f"In QSO with {partner or '?'}"
         elif activity_age < 60:
             pts = 15
             factors["activity"] = f"Active {activity_age:.0f}s ago"
