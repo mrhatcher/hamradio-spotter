@@ -1027,21 +1027,22 @@ class HamApp(tk.Tk):
                      'snr_fwd', 'snr_rev', 'country', 'state', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
-            ('rank',           '#',              25),
-            ('callsign',       'Call',            70),
-            ('score',          'Scr',             35),
-            ('confidence',     'Conf',            50),
-            ('status',         'Status',          55),
-            ('snr_fwd',        'SNR>',            40),
-            ('snr_rev',        '<SNR',            40),
-            ('country',        'DXCC',            65),
-            ('state',          'St',              35),
-            ('recommendation', 'Recommendation', 350),
+            ('rank',           '#',              20),
+            ('callsign',       'Call',            60),
+            ('score',          'Scr',             30),
+            ('confidence',     'Conf',            40),
+            ('status',         'Status',          50),
+            ('snr_fwd',        'S>',              30),
+            ('snr_rev',        '<S',              30),
+            ('country',        'DXCC',            55),
+            ('state',          'St',              25),
+            ('recommendation', 'Recommendation', 400),
         ]:
             self._ptree.heading(col, text=lbl)
-            self._ptree.column(col, width=w, anchor='center', stretch=True)
-        # Left-align recommendation
-        self._ptree.column('recommendation', anchor='w')
+            stretch = (col == 'recommendation')
+            self._ptree.column(col, width=w, anchor='center', stretch=stretch, minwidth=w)
+        # Left-align recommendation and let it stretch
+        self._ptree.column('recommendation', anchor='w', stretch=True)
 
         psb = ttk.Scrollbar(pf, orient='vertical', command=self._ptree.yview)
         self._ptree.configure(yscrollcommand=psb.set)
