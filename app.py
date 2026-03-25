@@ -1093,17 +1093,17 @@ class HamApp(tk.Tk):
         self._mtree.delete(*self._mtree.get_children())
         displayed = 0
 
-        # Sort by: most recently heard first, then strongest PSKReporter SNR
+        # Sort by: most recently heard first, then most recent PSK Heard Me
         def _mutual_sort_key(cs):
             info = heard.get(cs, {})
             h_time = info.get('time')
-            # Age in seconds — smaller = more recent
-            # Negate so sorted() ascending puts freshest first
-            age = (now - h_time).total_seconds() if h_time else 99999
-            # SNR — negate so strongest (highest) sorts first
+            # Age in seconds — smaller = more recent = sorts first
+            heard_age = (now - h_time).total_seconds() if h_time else 99999
+            # PSK spot age — smaller = more recent = sorts first
             spotter = spotted_by.get(cs, {})
-            hears_snr = -(spotter.get('snr', -999))
-            return (age, hears_snr)
+            psk_ts = spotter.get('time', 0)
+            psk_age = (now.timestamp() - psk_ts) if psk_ts else 99999
+            return (heard_age, psk_age)
 
         by_heard = sorted(self._sticky, key=_mutual_sort_key)
         for cs in by_heard:
