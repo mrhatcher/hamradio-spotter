@@ -190,7 +190,7 @@ def _recommendation(score: int, state: str, has_mutual: bool) -> str:
     if score >= 60:
         if has_mutual:
             return "Good candidate — mutual reception confirmed"
-        return "Good candidate — they hear you well"
+        return "Good candidate — strong forward path, no reverse confirmation"
     if score >= 40:
         if state == STATE_FINISHING:
             return "Finishing QSO — may CQ soon"
