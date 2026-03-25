@@ -1036,7 +1036,7 @@ class HamApp(tk.Tk):
             ('snr_rev',        '<SNR',            40),
             ('country',        'DXCC',            65),
             ('state',          'St',              35),
-            ('recommendation', 'Recommendation', 200),
+            ('recommendation', 'Recommendation', 350),
         ]:
             self._ptree.heading(col, text=lbl)
             self._ptree.column(col, width=w, anchor='center', stretch=True)
