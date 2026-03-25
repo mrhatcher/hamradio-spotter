@@ -1146,8 +1146,16 @@ class HamApp(tk.Tk):
         # -- Contact Probability panel -------------------------------------------
         try:
             self.state.predictor.expire_activity()
+            def _country_for(cs):
+                with _cache_lock:
+                    geo = _lookup_cache.get(cs)
+                if geo:
+                    return geo.get('country', '')
+                return _prefix_country(cs)
+
             rankings = self.state.predictor.rank_stations(
-                heard, spotted_by, logged, band, cur_mode, top_n=20)
+                heard, spotted_by, logged, band, cur_mode, top_n=20,
+                country_lookup=_country_for)
 
             self._ptree.delete(*self._ptree.get_children())
             for rank, entry in enumerate(rankings, 1):

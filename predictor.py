@@ -10,12 +10,109 @@ Scoring factors (max 100):
   Forward path      0-20  (WSJT-X SNR — how well you hear them)
   Mutual confirm    0-10  (both directions confirmed)
   Novelty           0-10  (never worked > new band > new mode > already worked)
+  Time penalty      0 to -15  (stations in unfavorable local time get penalized)
 """
 
 import re
 import time
 from datetime import datetime, timezone
 from typing import Optional
+
+
+# ── Country → approximate UTC offset ─────────────────────────────── #
+# Used to estimate local time at the remote station. Doesn't need to
+# be perfect — just close enough to know if it's 3am vs 7pm there.
+
+_COUNTRY_UTC_OFFSET: dict[str, float] = {
+    # North America
+    "USA": -5, "Canada": -5, "Alaska": -9, "Hawaii": -10,
+    "Puerto Rico": -4, "US Virgin Is.": -4, "Mexico": -6,
+    # Central America & Caribbean
+    "Cuba": -5, "Jamaica": -5, "Dominican Rep.": -4,
+    "Costa Rica": -6, "Panama": -5, "Guatemala": -6,
+    "Honduras": -6, "El Salvador": -6, "Nicaragua": -6,
+    "Belize": -6, "Trinidad": -4, "Barbados": -4,
+    # South America
+    "Brazil": -3, "Argentina": -3, "Chile": -4, "Colombia": -5,
+    "Venezuela": -4, "Peru": -5, "Ecuador": -5, "Uruguay": -3,
+    "Paraguay": -4, "Bolivia": -4, "Guyana": -4, "Suriname": -3,
+    # Europe
+    "England": 0, "Scotland": 0, "Wales": 0, "N. Ireland": 0,
+    "Ireland": 0, "France": 1, "Germany": 1, "Spain": 1,
+    "Portugal": 0, "Italy": 1, "Netherlands": 1, "Belgium": 1,
+    "Switzerland": 1, "Austria": 1, "Denmark": 1, "Norway": 1,
+    "Sweden": 1, "Finland": 2, "Poland": 1, "Czech Rep.": 1,
+    "Slovakia": 1, "Hungary": 1, "Romania": 2, "Bulgaria": 2,
+    "Greece": 2, "Croatia": 1, "Serbia": 1, "Slovenia": 1,
+    "Luxembourg": 1, "Iceland": 0, "Estonia": 2, "Latvia": 2,
+    "Lithuania": 2, "Ukraine": 2, "Belarus": 3, "Moldova": 2,
+    # Russia & Central Asia
+    "Russia (European)": 3, "Russia (Asiatic)": 7,
+    "Kazakhstan": 6, "Uzbekistan": 5, "Turkmenistan": 5,
+    "Kyrgyzstan": 6, "Tajikistan": 5, "Georgia": 4,
+    "Armenia": 4, "Azerbaijan": 4,
+    # Middle East
+    "Israel": 2, "Turkey": 3, "Saudi Arabia": 3, "Iraq": 3,
+    "Iran": 3.5, "Kuwait": 3, "UAE": 4, "Qatar": 3,
+    "Oman": 4, "Bahrain": 3, "Jordan": 2, "Lebanon": 2,
+    "Syria": 2, "Yemen": 3, "Cyprus": 2,
+    # Africa
+    "South Africa": 2, "Egypt": 2, "Nigeria": 1, "Kenya": 3,
+    "Morocco": 1, "Algeria": 1, "Tunisia": 1, "Libya": 2,
+    "Ghana": 0, "Senegal": 0, "Cameroon": 1, "Ethiopia": 3,
+    "Tanzania": 3, "Uganda": 3, "Zimbabwe": 2, "Mozambique": 2,
+    "Namibia": 2, "Botswana": 2, "Madagascar": 3,
+    # South Asia
+    "India": 5.5, "Pakistan": 5, "Sri Lanka": 5.5,
+    "Bangladesh": 6, "Nepal": 5.75,
+    # East Asia
+    "Japan": 9, "South Korea": 9, "China": 8, "Taiwan": 8,
+    "Hong Kong": 8, "Mongolia": 8, "North Korea": 9,
+    # Southeast Asia
+    "Thailand": 7, "Vietnam": 7, "Philippines": 8,
+    "Malaysia": 8, "Singapore": 8, "Indonesia": 7,
+    "Myanmar": 6.5, "Cambodia": 7, "Laos": 7,
+    # Oceania
+    "Australia": 10, "New Zealand": 12, "Papua New Guinea": 10,
+    "Fiji": 12, "Guam": 10, "Samoa": 13,
+}
+
+
+def _remote_local_hour(country: str, my_utc_offset: float = -5.0) -> float:
+    """Estimate the current local hour (0-23) at a remote station.
+
+    Returns -1 if country is unknown.
+    """
+    offset = _COUNTRY_UTC_OFFSET.get(country)
+    if offset is None:
+        return -1.0
+    from datetime import datetime, timezone, timedelta
+    utc_now = datetime.now(timezone.utc)
+    remote_hour = (utc_now + timedelta(hours=offset)).hour
+    remote_minute = (utc_now + timedelta(hours=offset)).minute
+    return remote_hour + remote_minute / 60.0
+
+
+def _time_penalty(remote_hour: float) -> tuple[int, str]:
+    """Return a penalty (negative points) based on remote local time.
+
+    Ham radio activity peaks 6am-11pm local time. Stations in the
+    middle of the night are much less likely to respond.
+
+    Returns (penalty, description).
+    """
+    if remote_hour < 0:
+        return 0, "Unknown timezone"
+
+    h = remote_hour
+    if 7 <= h <= 22:
+        return 0, f"Local {int(h):02d}:{int((h%1)*60):02d} — prime time"
+    if 6 <= h < 7 or 22 < h <= 23:
+        return -3, f"Local {int(h):02d}:{int((h%1)*60):02d} — early/late"
+    if 5 <= h < 6 or 23 < h <= 24:
+        return -7, f"Local {int(h):02d}:{int((h%1)*60):02d} — unlikely hours"
+    # 0-5 AM
+    return -12, f"Local {int(h):02d}:{int((h%1)*60):02d} — middle of night"
 
 
 # ── FT8 message patterns ────────────────────────────────────────── #
@@ -325,6 +422,7 @@ class ContactPredictor:
         is_worked_band_mode: bool,
         is_worked_band: bool,
         is_worked_any: bool,
+        country: str = "",
     ) -> dict:
         """Compute contact probability score for a single station.
 
@@ -338,6 +436,7 @@ class ContactPredictor:
         is_worked_band_mode : already worked on this band+mode
         is_worked_band : already worked on this band (any mode)
         is_worked_any : already worked on any band/mode
+        country : DXCC country name for time zone estimation
 
         Returns dict with score, confidence, factors, recommendation.
         """
@@ -494,6 +593,7 @@ class ContactPredictor:
         band: str,
         mode: str,
         top_n: int = 20,
+        country_lookup: Optional[callable] = None,
     ) -> list[dict]:
         """Rank all known stations by contact probability.
 
@@ -505,6 +605,7 @@ class ContactPredictor:
         band : current operating band (e.g., "20m")
         mode : current operating mode (e.g., "FT8")
         top_n : max stations to return
+        country_lookup : callable(callsign) -> str, returns DXCC country
 
         Returns sorted list of score dicts, highest first.
         """
@@ -553,6 +654,9 @@ class ContactPredictor:
             is_worked_b = is_worked_bm or (cs, band_l, "") in logged
             is_worked_any = is_worked_b or (cs, "", mode_u) in logged or (cs, "", "") in logged
 
+            # Get country for time zone penalty
+            country = country_lookup(cs) if country_lookup else ""
+
             score = self.compute_score(
                 cs,
                 heard_snr=heard_snr,
@@ -562,6 +666,7 @@ class ContactPredictor:
                 is_worked_band_mode=is_worked_bm,
                 is_worked_band=is_worked_b,
                 is_worked_any=is_worked_any,
+                country=country,
             )
 
             # Only include stations with some signal of viability
