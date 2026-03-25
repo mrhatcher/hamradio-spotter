@@ -1097,12 +1097,13 @@ class HamApp(tk.Tk):
         def _mutual_sort_key(cs):
             info = heard.get(cs, {})
             h_time = info.get('time')
-            # Negative age = most recent first (smallest negative = freshest)
-            h_age = -(now - h_time).total_seconds() if h_time else -99999
-            # Negative SNR for descending sort (strongest first)
+            # Age in seconds — smaller = more recent
+            # Negate so sorted() ascending puts freshest first
+            age = (now - h_time).total_seconds() if h_time else 99999
+            # SNR — negate so strongest (highest) sorts first
             spotter = spotted_by.get(cs, {})
             hears_snr = -(spotter.get('snr', -999))
-            return (h_age, hears_snr)
+            return (age, hears_snr)
 
         by_heard = sorted(self._sticky, key=_mutual_sort_key)
         for cs in by_heard:
