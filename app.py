@@ -1027,16 +1027,16 @@ class HamApp(tk.Tk):
                      'snr_fwd', 'snr_rev', 'country', 'state', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
-            ('rank',           '#',              35),
-            ('callsign',       'Callsign',       95),
-            ('score',          'Score',           50),
-            ('confidence',     'Confidence',      80),
-            ('status',         'Status',          75),
-            ('snr_fwd',        'SNR->',           55),
-            ('snr_rev',        '<-SNR',           55),
-            ('country',        'Country',        100),
-            ('state',          'State',           50),
-            ('recommendation', 'Recommendation', 280),
+            ('rank',           '#',              25),
+            ('callsign',       'Call',            70),
+            ('score',          'Scr',             35),
+            ('confidence',     'Conf',            50),
+            ('status',         'Status',          55),
+            ('snr_fwd',        'SNR>',            40),
+            ('snr_rev',        '<SNR',            40),
+            ('country',        'DXCC',            65),
+            ('state',          'St',              35),
+            ('recommendation', 'Recommendation', 200),
         ]:
             self._ptree.heading(col, text=lbl)
             self._ptree.column(col, width=w, anchor='center', stretch=True)
