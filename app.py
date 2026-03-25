@@ -892,7 +892,7 @@ class HamApp(tk.Tk):
     def __init__(self, state: AppState) -> None:
         super().__init__()
         self.state = state
-        self.title(f"Ham Radio Companion  --  {MY_CALLSIGN}")
+        self.title(f"{MY_CALLSIGN} — Ham Radio Companion")
         self.configure(bg=C['bg'])
         self.minsize(960, 560)
         self._build_styles()
@@ -1296,7 +1296,7 @@ class HamApp(tk.Tk):
 
         # -- band in title bar -------------------------------------------------
         if band:
-            self.title(f"Ham Radio Companion  --  {MY_CALLSIGN}  [{band}]  {MY_GRID}")
+            self.title(f"{MY_CALLSIGN} — Ham Radio Companion  [{band}]  {MY_GRID}")
 
 
 
