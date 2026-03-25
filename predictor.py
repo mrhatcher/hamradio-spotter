@@ -355,8 +355,13 @@ class ContactPredictor:
             # Check if this exchange involves MY station
             if to_call == self.my_call and from_call != self.my_call:
                 # They are sending a report TO me — active QSO with me
+                # The report_db is THEIR assessment of MY signal strength
                 self._set_state(from_call, STATE_QSO_WITH_ME, self.my_call,
                                 raw_message, ts, snr)
+                if parsed["report_db"] is not None:
+                    entry = self.activity.get(from_call)
+                    if entry:
+                        entry["their_report_of_me"] = parsed["report_db"]
                 return
             if from_call == self.my_call and to_call and to_call != self.my_call:
                 # I am sending a report to them — active QSO with me
@@ -714,7 +719,13 @@ class ContactPredictor:
             if score["score"] > 0:
                 # Add extra display info
                 score["heard_snr"] = heard_snr
-                score["spot_snr"] = spot_snr
+                # Prefer their in-QSO report of me over PSK spot SNR
+                act = self.activity.get(cs, {})
+                their_report = act.get("their_report_of_me")
+                if their_report is not None:
+                    score["spot_snr"] = their_report
+                else:
+                    score["spot_snr"] = spot_snr
                 score["heard_age"] = heard_age
                 score["spot_age"] = spot_age
                 results.append(score)
