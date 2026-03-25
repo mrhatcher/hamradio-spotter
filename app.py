@@ -988,15 +988,15 @@ class HamApp(tk.Tk):
             columns=('callsign', 'snr', 'hears_me', 'last_heard', 'heard_me', 'band', 'mode', 'state', 'country'),
             show='headings', selectmode='none', style='Mutual.Treeview')
         for col, lbl, w in [
-            ('callsign',   'Callsign',        110),
-            ('snr',        'SNR (dB)',          70),
-            ('hears_me',   'Hears Me',          80),
-            ('last_heard', 'Heard Callsign',   110),
-            ('heard_me',   'PSK Heard Me',      110),
-            ('band',       'Band',              60),
-            ('mode',       'Mode',              70),
-            ('state',      'State',             55),
-            ('country',    'Country',          120),
+            ('callsign',   'Callsign',        125),
+            ('snr',        'SNR (dB)',          80),
+            ('hears_me',   'Hears Me',          90),
+            ('last_heard', 'Heard Callsign',   125),
+            ('heard_me',   'PSK Heard Me',      125),
+            ('band',       'Band',              70),
+            ('mode',       'Mode',              80),
+            ('state',      'State',             65),
+            ('country',    'Country',          135),
         ]:
             self._mtree.heading(col, text=lbl)
             self._mtree.column(col, width=w, anchor='center', stretch=True)
@@ -1027,16 +1027,16 @@ class HamApp(tk.Tk):
                      'snr_fwd', 'snr_rev', 'country', 'state', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
-            ('rank',           '#',              30),
-            ('callsign',       'Call',            75),
-            ('score',          'Scr',             40),
-            ('confidence',     'Conf',            55),
-            ('status',         'Status',          65),
-            ('snr_fwd',        'S>',              40),
-            ('snr_rev',        '<S',              40),
-            ('country',        'DXCC',            70),
-            ('state',          'St',              35),
-            ('recommendation', 'Recommendation', 400),
+            ('rank',           '#',              35),
+            ('callsign',       'Call',            85),
+            ('score',          'Scr',             45),
+            ('confidence',     'Conf',            60),
+            ('status',         'Status',          70),
+            ('snr_fwd',        'S>',              45),
+            ('snr_rev',        '<S',              45),
+            ('country',        'DXCC',            80),
+            ('state',          'St',              40),
+            ('recommendation', 'Recommendation', 450),
         ]:
             self._ptree.heading(col, text=lbl)
             stretch = (col == 'recommendation')
