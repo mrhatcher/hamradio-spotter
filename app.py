@@ -70,8 +70,14 @@ LOG_FILE             = _get("log_files","hrd_log",               r"C:\Users\mich
 JTDX_LOG_FILE        = _get("log_files","jtdx_log",              r"C:\Users\micha\AppData\Local\JTDX\wsjtx_log.ADI")
 WORKED_CUTOFF_DAYS   = _get("filter",   "worked_cutoff_days",    730)
 
+# Station profile for propagation
+MY_GRID              = _get("station_profile", "grid",         "FM06").upper()
+MY_POWER             = _get("station_profile", "power_watts",  100)
+MY_ANTENNA           = _get("station_profile", "antenna",      "dipole").lower()
+
 print(f"[CFG] loaded from {_CONFIG_PATH}")
-print(f"[CFG] callsign={MY_CALLSIGN}  udp={UDP_PORT}  mqtt={MQTT_BROKER}:{MQTT_PORT}  cutoff={WORKED_CUTOFF_DAYS}d")
+print(f"[CFG] callsign={MY_CALLSIGN}  grid={MY_GRID}  power={MY_POWER}W  antenna={MY_ANTENNA}")
+print(f"[CFG] udp={UDP_PORT}  mqtt={MQTT_BROKER}:{MQTT_PORT}  cutoff={WORKED_CUTOFF_DAYS}d")
 # =============================================================================
 
 
@@ -639,9 +645,16 @@ class AppState:
         self.mqtt_connected: bool          = False
         self._prev_mutual: set = set()     # GUI-thread only
 
-        # Contact probability engine
+        # Propagation engine
+        from propagation import PropagationEngine, ANTENNA_DIPOLE, ANTENNA_VERTICAL, ANTENNA_YAGI_3
+        _ant_map = {"dipole": ANTENNA_DIPOLE, "vertical": ANTENNA_VERTICAL, "yagi": ANTENNA_YAGI_3}
+        _ant_code = _ant_map.get(MY_ANTENNA, ANTENNA_DIPOLE)
+        self.prop_engine = PropagationEngine(MY_GRID, int(MY_POWER), _ant_code)
+        self.prop_engine.start()
+
+        # Contact probability engine (with propagation)
         from predictor import ContactPredictor
-        self.predictor = ContactPredictor(MY_CALLSIGN)
+        self.predictor = ContactPredictor(MY_CALLSIGN, prop_engine=self.prop_engine)
 
     # -- worker-thread writers -------------------------------------------------
 
@@ -657,6 +670,7 @@ class AppState:
         with self._lock:
             if band:
                 self.current_band = band
+                self.predictor.set_band(band)
             if mode:
                 self.current_mode = mode
 
@@ -945,6 +959,11 @@ class HamApp(tk.Tk):
             bar, text=init_text,
             bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
         self._log_lbl.pack(side='left', padx=4)
+
+        self._solar_lbl = tk.Label(
+            bar, text='Solar: loading...',
+            bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
+        self._solar_lbl.pack(side='right', padx=8)
 
         self._psk_lbl = tk.Label(
             bar, text='MQTT  --  connecting ...',
@@ -1246,9 +1265,37 @@ class HamApp(tk.Tk):
         self._heard_lbl.config(
             text=f"heard: {len(heard)}  |  psk: {len(spotted_by)}")
 
+        # -- solar conditions display ------------------------------------------
+        solar = self.state.prop_engine.get_solar_summary()
+        if solar.get("sfi", 0) > 0:
+            sfi = solar["sfi"]
+            k = solar.get("k_index", 0)
+            geo = solar.get("geomagfield", "")
+            # Color based on K-index
+            if k <= 2:
+                sol_color = "#44cc44"  # Green — quiet
+            elif k <= 3:
+                sol_color = "#f0c040"  # Yellow — unsettled
+            else:
+                sol_color = "#cc4444"  # Red — active/storm
+            # Band condition for current freq
+            bands = solar.get("band_conditions", {})
+            bcond = ""
+            if band:
+                from propagation import _band_to_freq, _freq_to_band_group
+                freq = _band_to_freq(band)
+                grp = _freq_to_band_group(freq)
+                if grp and grp in bands:
+                    bcond = f" | {grp}: {bands[grp].get('day', '?')}"
+            self._solar_lbl.config(
+                text=f"SFI={sfi} K={k} {geo}{bcond}",
+                fg=sol_color)
+        else:
+            self._solar_lbl.config(text="Solar: waiting...", fg=C['hdr'])
+
         # -- band in title bar -------------------------------------------------
         if band:
-            self.title(f"Ham Radio Companion  --  {MY_CALLSIGN}  [{band}]")
+            self.title(f"Ham Radio Companion  --  {MY_CALLSIGN}  [{band}]  {MY_GRID}")
 
 
 

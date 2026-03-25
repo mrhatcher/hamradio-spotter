@@ -287,12 +287,22 @@ def parse_ft8_message(message: str) -> dict:
 class ContactPredictor:
     """Tracks per-station activity and computes contact probability scores."""
 
-    def __init__(self, my_callsign: str):
+    def __init__(self, my_callsign: str, prop_engine=None):
         self.my_call = my_callsign.upper().strip()
         # Per-station activity tracking
         # activity[callsign] = {state, directed_to, grid, last_message,
         #                       last_update, snr}
         self.activity: dict[str, dict] = {}
+        self._prop_engine = prop_engine
+        self._band: str = ""
+
+    def set_band(self, band: str):
+        """Update current operating band for propagation predictions."""
+        self._band = band
+
+    def set_prop_engine(self, engine):
+        """Attach a PropagationEngine for path scoring."""
+        self._prop_engine = engine
 
     def update_from_decode(self, raw_message: str, snr: int,
                            timestamp: Optional[float] = None):
@@ -571,11 +581,37 @@ class ContactPredictor:
             factors["novelty"] = "Already worked (band+mode)"
         total += pts
 
+        # ── 6. Propagation bonus/penalty (±15) ─────────────────────
+        prop_data = None
+        if self._prop_engine and act.get("grid"):
+            prop_data = self._prop_engine.predict(act["grid"], self._band or "")
+            prop_score = prop_data.get("score", 50)
+            if prop_score >= 75:
+                pts = 15
+                factors["propagation"] = f"Strong path — {prop_data.get('reason', '')}"
+            elif prop_score >= 60:
+                pts = 8
+                factors["propagation"] = f"Fair path — {prop_data.get('reason', '')}"
+            elif prop_score >= 40:
+                pts = 0
+                factors["propagation"] = f"Marginal — {prop_data.get('reason', '')}"
+            elif prop_score >= 20:
+                pts = -8
+                factors["propagation"] = f"Weak path — {prop_data.get('reason', '')}"
+            else:
+                pts = -15
+                factors["propagation"] = f"Poor path — {prop_data.get('reason', '')}"
+            total += pts
+        else:
+            factors["propagation"] = "No grid — cannot estimate"
+
+        total = max(0, min(100, total))
+
         # ── Build result ─────────────────────────────────────────
         conf = _confidence_label(total)
         rec = _recommendation(total, state, has_mutual)
 
-        return {
+        result = {
             "callsign": callsign,
             "score": total,
             "confidence": conf,
@@ -584,6 +620,11 @@ class ContactPredictor:
             "state": state,
             "grid": act.get("grid", ""),
         }
+        if prop_data:
+            result["distance_km"] = prop_data.get("distance_km", 0)
+            result["bearing_deg"] = prop_data.get("bearing_deg", 0)
+            result["band_condition"] = prop_data.get("band_condition", "")
+        return result
 
     def rank_stations(
         self,
