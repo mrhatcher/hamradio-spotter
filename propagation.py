@@ -531,31 +531,13 @@ class PropagationEngine:
                 result["source"] = "cached"
                 return result
 
-        # Try VOACAP
-        result = None
-        if self.solar.sfi > 0:
-            voacap = voacap_predict(
-                self.my_station, their_grid, band,
-                sfi=self.solar.sfi, ssn=self.solar.ssn,
-            )
-            if voacap and voacap.reliability_pct > 0:
-                result = {
-                    "score": int(voacap.reliability_pct),
-                    "reason": f"VOACAP: {voacap.reliability_pct:.0f}% reliable, "
-                              f"SNR={voacap.snr_db:+.0f}dB, "
-                              f"{voacap.distance_km:.0f}km {voacap.bearing_deg:.0f}\u00b0",
-                    "distance_km": voacap.distance_km,
-                    "bearing_deg": voacap.bearing_deg,
-                    "band_condition": self.solar.band_rating(
-                        _band_to_freq(band)),
-                    "source": "voacap",
-                }
-
-        # Fallback to simplified estimate
-        if result is None:
-            result = estimate_propagation(
-                self.my_station.grid, their_grid, band, self.solar)
-            result["source"] = "estimate"
+        # Use simplified estimate model (solar data + distance + band conditions)
+        # VOACAP Online API integration reserved for future when proper
+        # endpoint is confirmed. The estimate model uses real solar data
+        # and is sufficient for scoring.
+        result = estimate_propagation(
+            self.my_station.grid, their_grid, band, self.solar)
+        result["source"] = "estimate"
 
         # Cache it
         result["_ts"] = time.time()
