@@ -608,15 +608,20 @@ def _load_log_file(path: str) -> dict:
 
 def _is_worked(cs: str, band: str, mode: str, logged: dict, cutoff: date) -> bool:
     """
-    True if cs was logged for this band+mode within the past WORKED_CUTOFF_YEARS years.
-    Contacts older than cutoff are treated as new.
-    Falls back gracefully when the log has no band or no mode column.
+    True if cs was logged on this band (any mode) OR this mode (any band)
+    within the cutoff window.  This matches JTDX filtering behavior —
+    stations already worked on either the current band or current mode
+    are hidden.
     """
     b = band.lower()
     m = mode.upper()
-    for key in [(cs, b, m), (cs, b, ''), (cs, '', m), (cs, '', '')]:
-        d = logged.get(key)
-        if d is not None and d >= cutoff:
+    for (c, lb, lm), d in logged.items():
+        if c != cs:
+            continue
+        if d < cutoff:
+            continue
+        # Worked on this band (any mode) or this mode (any band)
+        if lb == b or lm == m:
             return True
     return False
 

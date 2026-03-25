@@ -693,12 +693,20 @@ class ContactPredictor:
             else:
                 spot_age = 9999
 
-            # Worked status
+            # Worked status — iterate logged to find band/mode matches
             band_l = band.lower() if band else ""
             mode_u = mode.upper() if mode else ""
-            is_worked_bm = (cs, band_l, mode_u) in logged
-            is_worked_b = is_worked_bm or (cs, band_l, "") in logged
-            is_worked_any = is_worked_b or (cs, "", mode_u) in logged or (cs, "", "") in logged
+            is_worked_bm = False
+            is_worked_b = False
+            is_worked_any = False
+            for (c, lb, lm), _d in logged.items():
+                if c != cs:
+                    continue
+                is_worked_any = True
+                if lb == band_l:
+                    is_worked_b = True
+                if lb == band_l and lm == mode_u:
+                    is_worked_bm = True
 
             # Get country for time zone penalty
             country = country_lookup(cs) if country_lookup else ""
@@ -714,6 +722,10 @@ class ContactPredictor:
                 is_worked_any=is_worked_any,
                 country=country,
             )
+
+            # Skip stations worked on this band OR this mode (match JTDX filtering)
+            if is_worked_b or is_worked_bm:
+                continue
 
             # Only include stations with some signal of viability
             if score["score"] > 0:
