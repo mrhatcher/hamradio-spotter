@@ -678,6 +678,6 @@ class ContactPredictor:
                 score["spot_age"] = spot_age
                 results.append(score)
 
-        # Sort by score descending
-        results.sort(key=lambda r: r["score"], reverse=True)
+        # Sort by score descending, then by most recently heard (freshest first)
+        results.sort(key=lambda r: (r["score"], -r.get("heard_age", 9999)), reverse=True)
         return results[:top_n]
