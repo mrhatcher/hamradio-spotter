@@ -629,6 +629,55 @@ def _play_alert(alert_type: str) -> None:
         pass  # no sound on non-Windows or if winsound fails
 
 
+# -- Awards progress -----------------------------------------------------------
+
+_US_STATES = frozenset({
+    'AL','AK','AZ','AR','CA','CO','CT','DE','FL','GA',
+    'HI','ID','IL','IN','IA','KS','KY','LA','ME','MD',
+    'MA','MI','MN','MS','MO','MT','NE','NV','NH','NJ',
+    'NM','NY','NC','ND','OH','OK','OR','PA','RI','SC',
+    'SD','TN','TX','UT','VT','VA','WA','WV','WI','WY',
+})
+
+_HF_BANDS_ORDER = ['160m','80m','60m','40m','30m','20m','17m','15m','12m','10m','6m']
+
+
+def _build_dashboard_data(logged: dict, cutoff: date) -> dict:
+    """Compute awards progress from the logged contact dict."""
+    dxcc_entities: set[str] = set()
+    was_states: set[str] = set()
+    band_dxcc: dict[str, set[str]] = {}   # band -> set of entities
+    mode_dxcc: dict[str, set[str]] = {}   # mode -> set of entities
+
+    for (call, band, mode), d in logged.items():
+        if d < cutoff:
+            continue
+        country = _prefix_country(call)
+        if not country:
+            continue
+        dxcc_entities.add(country)
+        if band:
+            band_dxcc.setdefault(band, set()).add(country)
+        if mode:
+            mode_dxcc.setdefault(mode, set()).add(country)
+        if country == 'USA':
+            with _cache_lock:
+                geo = _lookup_cache.get(call)
+            if geo and geo.get('state'):
+                was_states.add(geo['state'])
+
+    missing = sorted(_US_STATES - was_states)
+    return {
+        'dxcc_total':     len(dxcc_entities),
+        'dxcc_entities':  dxcc_entities,
+        'was_total':      len(was_states),
+        'was_states':     was_states,
+        'was_missing':    missing,
+        'band_dxcc':      {b: len(s) for b, s in band_dxcc.items()},
+        'mode_dxcc':      {m: len(s) for m, s in mode_dxcc.items()},
+    }
+
+
 # -- Needed station classification ---------------------------------------------
 
 def _build_worked_sets(logged: dict, cutoff: date) -> tuple:
@@ -1228,6 +1277,14 @@ class HamApp(tk.Tk):
             command=self._load_log_dialog,
         ).pack(side='left', padx=4)
 
+        tk.Button(
+            bar, text='Awards',
+            bg='#2a2a4a', fg=C['text'],
+            activebackground='#3a3a6a', activeforeground='#ffffff',
+            font=('Courier', 9), relief='flat', padx=8, pady=2,
+            command=self._toggle_awards,
+        ).pack(side='left', padx=4)
+
         init_text = os.path.basename(LOG_FILE) if LOG_FILE else 'no log configured'
         self._log_lbl = tk.Label(
             bar, text=init_text,
@@ -1305,9 +1362,66 @@ class HamApp(tk.Tk):
             bg='#1a1a2e', fg='#888888', font=('Courier', 9))
         self._qsy_current_lbl.pack(side='right', padx=8)
 
+        # -- Main content area (panels + optional sidebar) ----------------------
+        self._content = tk.Frame(self, bg=C['bg'])
+        self._content.pack(fill='both', expand=True)
+
+        self._panels = tk.Frame(self._content, bg=C['bg'])
+        self._panels.pack(side='left', fill='both', expand=True)
+
+        # -- Awards sidebar (initially hidden) ---------------------------------
+        self._awards_visible = False
+        self._awards_frame = tk.Frame(self._content, bg=C['bar_bg'], width=220)
+
+        _awf = ('Courier', 9)
+        _awb = ('Courier', 9, 'bold')
+
+        # DXCC section
+        tk.Label(self._awards_frame, text='DXCC Progress',
+                 bg=C['bar_bg'], fg='#ffffff', font=_awb).pack(anchor='w', padx=8, pady=(8, 2))
+        self._aw_dxcc_lbl = tk.Label(self._awards_frame, text='DXCC: --',
+                                      bg=C['bar_bg'], fg=C['hdr'], font=_awf)
+        self._aw_dxcc_lbl.pack(anchor='w', padx=12)
+
+        # Separator
+        tk.Frame(self._awards_frame, bg='#333355', height=1).pack(fill='x', padx=8, pady=4)
+
+        # WAS section
+        tk.Label(self._awards_frame, text='Worked All States',
+                 bg=C['bar_bg'], fg='#ffffff', font=_awb).pack(anchor='w', padx=8, pady=(4, 2))
+        self._aw_was_lbl = tk.Label(self._awards_frame, text='WAS: -- / 50',
+                                     bg=C['bar_bg'], fg=C['hdr'], font=_awf)
+        self._aw_was_lbl.pack(anchor='w', padx=12)
+        self._aw_was_missing = tk.Label(self._awards_frame, text='',
+                                         bg=C['bar_bg'], fg='#ff8800', font=('Courier', 8),
+                                         wraplength=200, justify='left')
+        self._aw_was_missing.pack(anchor='w', padx=12)
+
+        # Separator
+        tk.Frame(self._awards_frame, bg='#333355', height=1).pack(fill='x', padx=8, pady=4)
+
+        # Per-band DXCC section
+        tk.Label(self._awards_frame, text='DXCC by Band',
+                 bg=C['bar_bg'], fg='#ffffff', font=_awb).pack(anchor='w', padx=8, pady=(4, 2))
+        self._aw_band_lbl = tk.Label(self._awards_frame, text='',
+                                      bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 8),
+                                      justify='left', anchor='nw')
+        self._aw_band_lbl.pack(anchor='w', padx=12)
+
+        # Separator
+        tk.Frame(self._awards_frame, bg='#333355', height=1).pack(fill='x', padx=8, pady=4)
+
+        # Per-mode DXCC section
+        tk.Label(self._awards_frame, text='DXCC by Mode',
+                 bg=C['bar_bg'], fg='#ffffff', font=_awb).pack(anchor='w', padx=8, pady=(4, 2))
+        self._aw_mode_lbl = tk.Label(self._awards_frame, text='',
+                                      bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 8),
+                                      justify='left', anchor='nw')
+        self._aw_mode_lbl.pack(anchor='w', padx=12)
+
         # -- Mutual Spots panel ------------------------------------------------
         mf = tk.LabelFrame(
-            self,
+            self._panels,
             text='  *  Mutual Spots  --  I hear them  &  they hear me  *  ',
             bg=C['green_bg'], fg=C['green_fg'],
             font=('Courier', 10, 'bold'), relief='groove', bd=2)
@@ -1346,7 +1460,7 @@ class HamApp(tk.Tk):
 
         # -- Contact Probability panel -------------------------------------------
         pf = tk.LabelFrame(
-            self,
+            self._panels,
             text='  Contact Probability  --  Who should I call?  ',
             bg='#0e0e1e', fg='#00b4d8',
             font=('Courier', 10, 'bold'), relief='groove', bd=2)
@@ -1408,6 +1522,16 @@ class HamApp(tk.Tk):
             tree.tag_configure('NEW_MUTUAL',   foreground='#44ff44')
 
 
+    # -- awards sidebar toggle -------------------------------------------------
+
+    def _toggle_awards(self) -> None:
+        if self._awards_visible:
+            self._awards_frame.pack_forget()
+            self._awards_visible = False
+        else:
+            self._awards_frame.pack(side='right', fill='y', padx=(0, 4), pady=4)
+            self._awards_visible = True
+
     # -- log file dialog -------------------------------------------------------
 
     def _load_log_dialog(self) -> None:
@@ -1460,6 +1584,34 @@ class HamApp(tk.Tk):
                 _build_worked_sets(logged, cutoff)
         else:
             _w_dxcc = _w_states = _w_band_slots = _w_mode_slots = set()
+
+        # -- awards dashboard update (only if visible) -------------------------
+        if self._awards_visible and has_log:
+            _aw = _build_dashboard_data(logged, cutoff)
+            dxcc_n = _aw['dxcc_total']
+            dxcc_color = '#2ecc71' if dxcc_n >= 100 else C['hdr']
+            self._aw_dxcc_lbl.config(text=f"DXCC: {dxcc_n} worked", fg=dxcc_color)
+
+            was_n = _aw['was_total']
+            was_color = '#2ecc71' if was_n >= 50 else C['hdr']
+            self._aw_was_lbl.config(text=f"WAS: {was_n} / 50", fg=was_color)
+            if _aw['was_missing']:
+                self._aw_was_missing.config(
+                    text=f"Missing: {' '.join(_aw['was_missing'])}")
+            else:
+                self._aw_was_missing.config(text="All 50 states worked!")
+
+            band_lines = []
+            for b in _HF_BANDS_ORDER:
+                n = _aw['band_dxcc'].get(b, 0)
+                if n > 0:
+                    band_lines.append(f"{b:>5s}  {n:>4d}")
+            self._aw_band_lbl.config(text='\n'.join(band_lines) if band_lines else '--')
+
+            mode_lines = []
+            for m, n in sorted(_aw['mode_dxcc'].items(), key=lambda x: -x[1]):
+                mode_lines.append(f"{m:>5s}  {n:>4d}")
+            self._aw_mode_lbl.config(text='\n'.join(mode_lines) if mode_lines else '--')
 
         # -- sound alerts for new mutual spots ---------------------------------
         if new_mutual and SOUND_ENABLED:
