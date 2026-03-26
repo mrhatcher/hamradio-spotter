@@ -1892,9 +1892,13 @@ def _launch_jtdx(slice_name: str) -> None:
         print(f"[FLEX] JTDX executable not found: {FLEX_JTDX_EXE}")
         return
     cmd = [FLEX_JTDX_EXE, '--rig-name', rig_name]
-    print(f"[FLEX] Launching JTDX for slice {slice_name}: {' '.join(cmd)}")
-    _jtdx_processes[slice_name] = subprocess.Popen(
-        cmd, cwd=os.path.dirname(FLEX_JTDX_EXE))
+    print(f"[FLEX] Launching JTDX for slice {slice_name}: {cmd}")
+    try:
+        _jtdx_processes[slice_name] = subprocess.Popen(
+            cmd, cwd=os.path.dirname(FLEX_JTDX_EXE))
+        print(f"[FLEX] JTDX launched (pid={_jtdx_processes[slice_name].pid})")
+    except Exception as exc:
+        print(f"[FLEX] JTDX launch FAILED: {exc}")
 
 
 def _close_jtdx(slice_name: str) -> None:
@@ -1931,11 +1935,13 @@ def _flex_worker(state: AppState) -> None:
             state.set_band_mode(band, mode, slice_name=sname)
             if mode != prev_mode:
                 print(f"[FLEX] Slice {sname} (#{slice_num}) mode: {prev_mode or '?'} -> {mode}")
-            # Auto-launch JTDX on DIGU detection
-            if mode == 'DIGU' and in_use and FLEX_AUTO_JTDX:
+            _is_digi = mode in ('DIGU', 'DIGL')
+            _was_digi = prev_mode in ('DIGU', 'DIGL')
+            # Auto-launch JTDX on DIGU/DIGL detection
+            if _is_digi and in_use and FLEX_AUTO_JTDX:
                 _launch_jtdx(sname)
-            # Auto-close JTDX when mode changed FROM DIGU to something else
-            elif prev_mode == 'DIGU' and mode != 'DIGU' and FLEX_AUTO_JTDX:
+            # Auto-close JTDX when mode changed FROM digital to non-digital
+            elif _was_digi and not _is_digi and FLEX_AUTO_JTDX:
                 _close_jtdx(sname)
 
     _backoff = 5

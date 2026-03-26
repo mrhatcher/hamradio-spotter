@@ -182,9 +182,9 @@ def fetch_solar_data() -> SolarData:
             m = re.search(rf'<{name}>([^<]*)</{name}>', xml)
             return m.group(1).strip() if m else ""
 
-        sd.sfi = int(_tag("solarflux") or 0)
-        sd.ssn = int(_tag("sunspots") or 0)
-        sd.k_index = int(_tag("kindex") or 0)
+        sd.sfi = int(float(_tag("solarflux") or 0))
+        sd.ssn = int(float(_tag("sunspots") or 0))
+        sd.k_index = int(float(_tag("kindex") or 0))
         sd.a_index = int(_tag("aindex") or 0)
         sd.solar_wind = int(_tag("solarwind") or 0)
         sd.geomagfield = _tag("geomagfield") or "unknown"
