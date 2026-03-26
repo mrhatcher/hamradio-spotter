@@ -178,23 +178,34 @@ def _confidence_label(score: int) -> str:
     return "UNLIKELY"
 
 
-def _recommendation(score: int, state: str, has_mutual: bool) -> str:
+def _cycle_advice(tx_cycle: str) -> str:
+    """Return cycle switching advice based on station's TX cycle."""
+    if tx_cycle == 'EVEN':
+        return ' (they TX EVEN — you TX ODD)'
+    elif tx_cycle == 'ODD':
+        return ' (they TX ODD — you TX EVEN)'
+    return ''
+
+
+def _recommendation(score: int, state: str, has_mutual: bool,
+                    tx_cycle: str = '') -> str:
+    ca = _cycle_advice(tx_cycle)
     if state == STATE_CALLING_ME:
         return ">>> RESPONDING to your CQ! <<<"
     if state == STATE_QSO_WITH_ME:
         return ">>> ACTIVE QSO with you! <<<"
     if score >= 80:
         if state == STATE_CQ:
-            return "Call now — CQing, strong mutual path"
-        return "Call now — excellent conditions"
+            return f"Call now — CQing, strong mutual path{ca}"
+        return f"Call now — excellent conditions{ca}"
     if score >= 60:
         if has_mutual:
-            return "Good candidate — mutual reception confirmed"
-        return "Good candidate — strong forward path, no reverse confirmation"
+            return f"Good candidate — mutual reception confirmed{ca}"
+        return f"Good candidate — strong forward path{ca}"
     if score >= 40:
         if state == STATE_FINISHING:
-            return "Finishing QSO — may CQ soon"
-        return "Worth trying — one-way path confirmed"
+            return f"Finishing QSO — may CQ soon{ca}"
+        return f"Worth trying — one-way path confirmed{ca}"
     if score >= 20:
         return "Marginal — wait for better conditions"
     return "Unlikely to respond"
@@ -305,12 +316,15 @@ class ContactPredictor:
         self._prop_engine = engine
 
     def update_from_decode(self, raw_message: str, snr: int,
-                           timestamp: Optional[float] = None):
+                           timestamp: Optional[float] = None,
+                           tx_cycle: str = ''):
         """Process a decoded FT8 message and update activity states.
 
         Call this for every decode received from WSJT-X/JTDX.
+        tx_cycle: 'EVEN' or 'ODD' — which TX cycle this decode was transmitted on.
         """
         ts = timestamp or time.time()
+        self._last_tx_cycle = tx_cycle  # stash for _set_state
         parsed = parse_ft8_message(raw_message)
 
         if parsed["is_cq"]:
@@ -323,6 +337,7 @@ class ContactPredictor:
                     "last_message": raw_message.strip(),
                     "last_update": ts,
                     "snr": snr,
+                    "tx_cycle": tx_cycle,
                 }
             return
 
@@ -415,6 +430,11 @@ class ContactPredictor:
         # Preserve grid if we had one
         if "grid" not in entry:
             entry["grid"] = ""
+        # Track TX cycle
+        if hasattr(self, '_last_tx_cycle') and self._last_tx_cycle:
+            entry["tx_cycle"] = self._last_tx_cycle
+        elif "tx_cycle" not in entry:
+            entry["tx_cycle"] = ""
         self.activity[callsign] = entry
 
     def expire_activity(self, max_age: float = ACTIVITY_TIMEOUT):
@@ -614,7 +634,8 @@ class ContactPredictor:
 
         # ── Build result ─────────────────────────────────────────
         conf = _confidence_label(total)
-        rec = _recommendation(total, state, has_mutual)
+        _tc = act.get("tx_cycle", "")
+        rec = _recommendation(total, state, has_mutual, tx_cycle=_tc)
 
         result = {
             "callsign": callsign,
@@ -624,6 +645,7 @@ class ContactPredictor:
             "recommendation": rec,
             "state": state,
             "grid": act.get("grid", ""),
+            "tx_cycle": _tc,
         }
         if prop_data:
             result["distance_km"] = prop_data.get("distance_km", 0)

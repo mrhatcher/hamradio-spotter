@@ -470,13 +470,13 @@ def _parse_wsjtx(data: bytes) -> Optional[dict]:
         if msg_type == _MSG_DECODE:
             b.utf8()                  # instance id
             b.bool_()                 # new decode flag
-            b.u32()                   # time ms from midnight UTC
+            time_ms = b.u32()         # time ms from midnight UTC
             snr  = b.i32()
             b.f64()                   # delta-t (s)
             b.u32()                   # delta-f (Hz)
             mode = b.utf8()
             msg  = b.utf8()
-            return {'type': _MSG_DECODE, 'snr': snr, 'mode': mode, 'message': msg}
+            return {'type': _MSG_DECODE, 'snr': snr, 'mode': mode, 'message': msg, 'time_ms': time_ms}
 
         if msg_type == _MSG_STATUS:
             b.utf8()                  # instance id
@@ -499,6 +499,18 @@ def _callsigns_in(message: str) -> list:
         if _CS_RE.fullmatch(part):
             found.append(part)
     return found
+
+
+def _tx_cycle(mode: str, time_ms: int) -> str:
+    """Determine TX cycle from decode timestamp. Returns 'EVEN' or 'ODD'.
+
+    FT8: 15-second TX windows. EVEN starts at :00/:30, ODD at :15/:45.
+    FT4: 7.5-second TX windows. EVEN at :00/:15/:30/:45, ODD at :07.5/:22.5/:37.5/:52.5.
+    """
+    if mode == 'FT4':
+        return 'EVEN' if (time_ms % 15000) < 7500 else 'ODD'
+    else:  # FT8 and other modes use 30-second cycles
+        return 'EVEN' if (time_ms % 30000) < 15000 else 'ODD'
 
 
 # -- Log file loaders (ADIF + CSV) --------------------------------------------
@@ -817,7 +829,8 @@ class AppState:
     # -- worker-thread writers -------------------------------------------------
 
     def record_heard(self, cs: str, snr: int, mode: str,
-                     band: str = '', slice_name: str = 'A') -> None:
+                     band: str = '', slice_name: str = 'A',
+                     tx_cycle: str = '') -> None:
         with self._lock:
             self.heard[cs] = {
                 'snr':  snr,
@@ -825,6 +838,7 @@ class AppState:
                 'time': datetime.now(timezone.utc),
                 'band': band,
                 'slice': slice_name,
+                'tx_cycle': tx_cycle,
             }
             self.total_decode_count += 1
             self._snr_heard_samples.append(snr)
@@ -990,13 +1004,16 @@ def _udp_worker(state: AppState, slice_name: str = 'A', port: int = 0) -> None:
             raw = pkt['mode']
             slice_st = state.slices.get(slice_name, {})
             mode = (raw if raw and raw != '~' else None) or slice_st.get('mode', '') or 'FT8'
+            cycle = _tx_cycle(mode, pkt.get('time_ms', 0))
             for cs in _callsigns_in(pkt['message']):
                 if cs != MY_CALLSIGN:
                     state.record_heard(cs, pkt['snr'], mode,
-                                       band=_slice_band, slice_name=slice_name)
+                                       band=_slice_band, slice_name=slice_name,
+                                       tx_cycle=cycle)
             # Feed raw message to contact predictor for activity tracking
             try:
-                state.predictor.update_from_decode(pkt['message'], pkt['snr'])
+                state.predictor.update_from_decode(pkt['message'], pkt['snr'],
+                                                   tx_cycle=cycle)
             except Exception:
                 pass
         elif pkt['type'] == _MSG_STATUS:
@@ -1247,6 +1264,10 @@ class HamApp(tk.Tk):
 
         self._stat_psk_snr_lbl = tk.Label(sbar, text='SNR>me: --', **_val_cfg)
         self._stat_psk_snr_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_cycle_lbl = tk.Label(sbar, text='Cycle: --', **_val_cfg)
+        self._stat_cycle_lbl.pack(side='left')
 
         # -- Auto-QSY suggestion banner ----------------------------------------
         self._qsy_frame = tk.Frame(self, bg='#1a1a2e', pady=3)
@@ -1277,7 +1298,7 @@ class HamApp(tk.Tk):
 
         self._mtree = ttk.Treeview(
             mf,
-            columns=('callsign', 'state', 'country', 'snr', 'hears_me', 'last_heard', 'heard_me', 'band', 'mode'),
+            columns=('callsign', 'state', 'country', 'snr', 'hears_me', 'last_heard', 'heard_me', 'band', 'mode', 'tx_cycle'),
             show='headings', selectmode='none', style='Mutual.Treeview')
         for col, lbl, w in [
             ('callsign',   'Call',             125),
@@ -1289,6 +1310,7 @@ class HamApp(tk.Tk):
             ('heard_me',   'PSK Heard Me',      125),
             ('band',       'Band',              70),
             ('mode',       'Mode',              80),
+            ('tx_cycle',   'Cycle',             55),
         ]:
             self._mtree.heading(col, text=lbl)
             self._mtree.column(col, width=w, anchor='center', stretch=True)
@@ -1316,7 +1338,7 @@ class HamApp(tk.Tk):
         self._ptree = ttk.Treeview(
             pf,
             columns=('rank', 'callsign', 'state', 'country', 'mode', 'score', 'confidence', 'status',
-                     'snr_fwd', 'snr_rev', 'recommendation'),
+                     'snr_fwd', 'snr_rev', 'tx_cycle', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
             ('rank',           '#',              35),
@@ -1329,6 +1351,7 @@ class HamApp(tk.Tk):
             ('status',         'Status',          85),
             ('snr_fwd',        'S>',              45),
             ('snr_rev',        '<S',              45),
+            ('tx_cycle',       'Cycle',           55),
             ('recommendation', 'Recommendation', 400),
         ]:
             self._ptree.heading(col, text=lbl)
@@ -1516,9 +1539,10 @@ class HamApp(tk.Tk):
                 _mtag = ('NEW_MUTUAL',)
             else:
                 _mtag = ()
+            _cycle = heard.get(cs, {}).get('tx_cycle', '?')
             self._mtree.insert('', 'end',
                                values=(cs, state_s, country_s, snr_s, hears_s, t_s, heard_me_s,
-                                       band or '?', mode),
+                                       band or '?', mode, _cycle),
                                tags=_mtag)
             displayed += 1
             if _needs:
@@ -1604,6 +1628,7 @@ class HamApp(tk.Tk):
                         entry['state'],
                         fwd,
                         rev,
+                        entry.get('tx_cycle', ''),
                         entry['recommendation'],
                     ),
                     tags=_p_tags)
@@ -1705,6 +1730,14 @@ class HamApp(tk.Tk):
             text=f"SNR heard: {'/'.join(snr_parts)}" if snr_parts else "SNR heard: --")
         if ss['avg_snr_spots'] is not None:
             self._stat_psk_snr_lbl.config(text=f"SNR>me: {ss['avg_snr_spots']:+.0f}dB")
+
+        # Cycle summary from mutual spots
+        _n_even = sum(1 for cs in mutual if heard.get(cs, {}).get('tx_cycle') == 'EVEN')
+        _n_odd  = sum(1 for cs in mutual if heard.get(cs, {}).get('tx_cycle') == 'ODD')
+        if _n_even or _n_odd:
+            self._stat_cycle_lbl.config(text=f"Mutual: {_n_even}E/{_n_odd}O")
+        else:
+            self._stat_cycle_lbl.config(text="Cycle: --")
 
         # -- Auto-QSY suggestion -----------------------------------------------
         try:
