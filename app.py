@@ -91,11 +91,12 @@ FLEX_ENABLED     = _get("flex_radio", "enabled", "no").lower() in ("yes", "true"
 FLEX_IP          = _get("flex_radio", "ip", "")
 FLEX_PORT        = _get("flex_radio", "tcp_port", 4992)
 FLEX_AUTO_JTDX   = _get("flex_radio", "auto_launch_jtdx", "yes").lower() in ("yes", "true", "1")
-FLEX_JTDX_PATHS: dict[str, str] = {}
+FLEX_JTDX_EXE    = _get("flex_radio", "jtdx_exe", r"C:\JTDX64\159-32A\bin\jtdx.exe")
+FLEX_JTDX_RIGS: dict[str, str] = {}  # slice name -> --rig-name value
 for _sn in sorted(_SLICES):
-    _jp = _get("flex_radio", f"jtdx_slice_{_sn.lower()}", "")
-    if _jp:
-        FLEX_JTDX_PATHS[_sn] = _jp
+    _rn = _get("flex_radio", f"jtdx_slice_{_sn.lower()}", "")
+    if _rn:
+        FLEX_JTDX_RIGS[_sn] = _rn
 
 # Station profile for propagation
 MY_GRID              = _get("station_profile", "grid",         "FM06").upper()
@@ -1883,13 +1884,17 @@ def _launch_jtdx(slice_name: str) -> None:
         proc = _jtdx_processes[slice_name]
         if proc.poll() is None:  # still running
             return
-    exe = FLEX_JTDX_PATHS.get(slice_name)
-    if not exe or not os.path.isfile(exe):
-        print(f"[FLEX] JTDX path not configured or missing for slice {slice_name}")
+    rig_name = FLEX_JTDX_RIGS.get(slice_name)
+    if not rig_name:
+        print(f"[FLEX] JTDX rig-name not configured for slice {slice_name}")
         return
-    print(f"[FLEX] Launching JTDX for slice {slice_name}: {exe}")
+    if not FLEX_JTDX_EXE or not os.path.isfile(FLEX_JTDX_EXE):
+        print(f"[FLEX] JTDX executable not found: {FLEX_JTDX_EXE}")
+        return
+    cmd = [FLEX_JTDX_EXE, '--rig-name', rig_name]
+    print(f"[FLEX] Launching JTDX for slice {slice_name}: {' '.join(cmd)}")
     _jtdx_processes[slice_name] = subprocess.Popen(
-        [exe], cwd=os.path.dirname(exe))
+        cmd, cwd=os.path.dirname(FLEX_JTDX_EXE))
 
 
 def _close_jtdx(slice_name: str) -> None:
