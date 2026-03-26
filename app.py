@@ -58,6 +58,16 @@ def _get(section: str, key: str, fallback):
 MY_CALLSIGN          = _get("station",  "callsign",              "NC4MH").upper()
 UDP_HOST             = _get("network",  "udp_host",              "0.0.0.0")
 UDP_PORT             = _get("network",  "udp_port",              2338)
+
+# Multi-slice support: [slices] section overrides single udp_port
+_SLICES: dict[str, int] = {}
+if _cfg.has_section('slices'):
+    for _sk in sorted(_cfg.options('slices')):
+        if _sk.startswith('slice_'):
+            _sname = _sk.replace('slice_', '').upper()
+            _SLICES[_sname] = int(_cfg.get('slices', _sk))
+if not _SLICES:
+    _SLICES = {'A': UDP_PORT}
 MQTT_BROKER          = _get("network",  "mqtt_broker",           "138.68.151.174")
 MQTT_PORT            = _get("network",  "mqtt_port",             1883)
 PSK_HEARD_ME_MAX_AGE = _get("timing",   "psk_heard_me_max_age",  300)
@@ -82,7 +92,8 @@ MY_ANTENNA           = _get("station_profile", "antenna",      "dipole").lower()
 
 print(f"[CFG] loaded from {_CONFIG_PATH}")
 print(f"[CFG] callsign={MY_CALLSIGN}  grid={MY_GRID}  power={MY_POWER}W  antenna={MY_ANTENNA}")
-print(f"[CFG] udp={UDP_PORT}  mqtt={MQTT_BROKER}:{MQTT_PORT}  cutoff={WORKED_CUTOFF_DAYS}d")
+_slice_desc = "  ".join(f"{n}:{p}" for n, p in _SLICES.items())
+print(f"[CFG] slices=[{_slice_desc}]  mqtt={MQTT_BROKER}:{MQTT_PORT}  cutoff={WORKED_CUTOFF_DAYS}d")
 # =============================================================================
 
 
@@ -753,15 +764,19 @@ class AppState:
 
     def __init__(self) -> None:
         self._lock             = threading.Lock()
-        self.heard: dict       = {}        # cs -> {snr, mode, time}
+        self.heard: dict       = {}        # cs -> {snr, mode, time, band, slice}
         self.spotted_by: dict  = {}        # cs -> {snr, band, mode} from PSKReporter
         self.logged: dict      = {}        # (call, band, mode) -> most_recent_date
         self.log_path: str     = ''
-        self.current_band: str = ''
-        self.current_mode: str = ''
         self.last_psk: Optional[datetime] = None
         self.mqtt_connected: bool          = False
         self._prev_mutual: set = set()     # GUI-thread only
+
+        # Per-slice state (band/mode per receiver slice)
+        self.slices: dict[str, dict] = {
+            name: {'band': '', 'mode': '', 'port': port}
+            for name, port in _SLICES.items()
+        }
 
         # Session statistics (cumulative, never expire)
         self.session_start: datetime       = datetime.now(timezone.utc)
@@ -789,25 +804,42 @@ class AppState:
         from predictor import ContactPredictor
         self.predictor = ContactPredictor(MY_CALLSIGN, prop_engine=self.prop_engine)
 
+    # -- backward-compatible properties (return primary slice A) ----------------
+
+    @property
+    def current_band(self) -> str:
+        return self.slices.get('A', {}).get('band', '')
+
+    @property
+    def current_mode(self) -> str:
+        return self.slices.get('A', {}).get('mode', '')
+
     # -- worker-thread writers -------------------------------------------------
 
-    def record_heard(self, cs: str, snr: int, mode: str) -> None:
+    def record_heard(self, cs: str, snr: int, mode: str,
+                     band: str = '', slice_name: str = 'A') -> None:
         with self._lock:
             self.heard[cs] = {
                 'snr':  snr,
                 'mode': mode,
                 'time': datetime.now(timezone.utc),
+                'band': band,
+                'slice': slice_name,
             }
             self.total_decode_count += 1
             self._snr_heard_samples.append(snr)
 
-    def set_band_mode(self, band: str, mode: str) -> None:
+    def set_band_mode(self, band: str, mode: str,
+                      slice_name: str = 'A') -> None:
         with self._lock:
-            if band:
-                self.current_band = band
+            if slice_name in self.slices:
+                if band:
+                    self.slices[slice_name]['band'] = band
+                if mode:
+                    self.slices[slice_name]['mode'] = mode
+            # Update predictor with primary slice band
+            if slice_name == 'A' and band:
                 self.predictor.set_band(band)
-            if mode:
-                self.current_mode = mode
 
     def add_spot(self, cs: str, snr: int, band: str, mode: str, ts: float) -> None:
         with self._lock:
@@ -919,25 +951,30 @@ class AppState:
             band = self.current_band
             mode = self.current_mode
             conn = self.mqtt_connected
+            sl   = {k: dict(v) for k, v in self.slices.items()}
         mutual     = {cs for cs in h if cs in s}
         new_mutual = mutual - self._prev_mutual
         self._prev_mutual = mutual
-        return h, s, mutual, new_mutual, p, log, band, mode, conn
+        return h, s, mutual, new_mutual, p, log, band, mode, conn, sl
 
 
 # -- Background workers -------------------------------------------------------
 
-def _udp_worker(state: AppState) -> None:
+def _udp_worker(state: AppState, slice_name: str = 'A', port: int = 0) -> None:
+    port = port or UDP_PORT
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
         sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
-        sock.bind((UDP_HOST, UDP_PORT))
+        sock.bind((UDP_HOST, port))
     except OSError as exc:
-        print(f"[UDP] FATAL -- cannot bind to :{UDP_PORT}: {exc}")
+        print(f"[UDP-{slice_name}] FATAL -- cannot bind to :{port}: {exc}")
         return
 
     sock.settimeout(1.0)
-    print(f"[UDP] listening on {UDP_HOST}:{UDP_PORT}")
+    print(f"[UDP-{slice_name}] listening on {UDP_HOST}:{port}")
+
+    # Per-slice band tracking (local to this worker thread)
+    _slice_band = ''
 
     while True:
         try:
@@ -951,17 +988,21 @@ def _udp_worker(state: AppState) -> None:
             # JTDX sends '~' as a placeholder in Decode packets — ignore it
             # and use the authoritative mode from the last Status packet
             raw = pkt['mode']
-            mode = (raw if raw and raw != '~' else None) or state.current_mode or 'FT8'
+            slice_st = state.slices.get(slice_name, {})
+            mode = (raw if raw and raw != '~' else None) or slice_st.get('mode', '') or 'FT8'
             for cs in _callsigns_in(pkt['message']):
                 if cs != MY_CALLSIGN:
-                    state.record_heard(cs, pkt['snr'], mode)
+                    state.record_heard(cs, pkt['snr'], mode,
+                                       band=_slice_band, slice_name=slice_name)
             # Feed raw message to contact predictor for activity tracking
             try:
                 state.predictor.update_from_decode(pkt['message'], pkt['snr'])
             except Exception:
                 pass
         elif pkt['type'] == _MSG_STATUS:
-            state.set_band_mode(_freq_to_band(pkt['freq']), pkt['mode'])
+            _slice_band = _freq_to_band(pkt['freq'])
+            state.set_band_mode(_slice_band, pkt['mode'],
+                                slice_name=slice_name)
 
 
 def _mqtt_worker(state: AppState) -> None:
@@ -1128,15 +1169,20 @@ class HamApp(tk.Tk):
         bar = tk.Frame(self, bg=C['bar_bg'], pady=4)
         bar.pack(fill='x', side='top')
 
+        _udp_desc = "  ".join(f"{n}:{p}" for n, p in sorted(_SLICES.items()))
         self._udp_lbl = tk.Label(
-            bar, text=f"  UDP :{UDP_PORT}  listening",
+            bar, text=f"  UDP [{_udp_desc}]  listening",
             bg=C['bar_bg'], fg='#44cc44', font=('Courier', 9))
         self._udp_lbl.pack(side='left', padx=(8, 4))
 
-        self._mode_lbl = tk.Label(
-            bar, text='  --  ', bg='#224422', fg='#44ff44',
-            font=('Courier', 12, 'bold'), padx=8, pady=1)
-        self._mode_lbl.pack(side='left', padx=(4, 4))
+        self._slice_lbls: dict[str, tk.Label] = {}
+        for _sn in sorted(_SLICES):
+            _sl = tk.Label(
+                bar, text=f' {_sn}:-- ',
+                bg='#224422', fg='#44ff44',
+                font=('Courier', 12, 'bold'), padx=6, pady=1)
+            _sl.pack(side='left', padx=(2, 2))
+            self._slice_lbls[_sn] = _sl
 
         self._heard_lbl = tk.Label(
             bar, text='heard: 0  |  psk: 0',
@@ -1343,18 +1389,18 @@ class HamApp(tk.Tk):
         try:
             self._do_refresh()
         finally:
-            # Adaptive refresh: faster in FT4 mode
-            mode = self.state.current_mode
-            if mode == 'FT4':
-                interval = max(GUI_REFRESH_MS // 2, 1500)  # 1.5s minimum
-            else:
-                interval = GUI_REFRESH_MS
+            # Adaptive refresh: faster if ANY slice is in FT4 mode
+            _any_ft4 = any(
+                sl.get('mode') == 'FT4'
+                for sl in self.state.slices.values()
+            )
+            interval = max(GUI_REFRESH_MS // 2, 1500) if _any_ft4 else GUI_REFRESH_MS
             self.after(interval, self._refresh_loop)
 
     def _do_refresh(self) -> None:
         self.state.expire_heard()
         self.state.expire_spots()
-        heard, spotted_by, mutual, new_mutual, last_psk, logged, band, cur_mode, mqtt_conn = \
+        heard, spotted_by, mutual, new_mutual, last_psk, logged, band, cur_mode, mqtt_conn, slice_states = \
             self.state.snapshot()
 
         # Track peak mutual count for session stats
@@ -1743,15 +1789,23 @@ class HamApp(tk.Tk):
                                  bg='#1a1a2e', fg='#cc4444')
 
         # -- mode indicator + title bar ------------------------------------------
-        _mode_display = cur_mode or '--'
-        if cur_mode == 'FT4':
-            self._mode_lbl.config(text=f' {_mode_display} ', bg='#443300', fg='#ffaa00')
-        elif cur_mode == 'FT8':
-            self._mode_lbl.config(text=f' {_mode_display} ', bg='#224422', fg='#44ff44')
-        else:
-            self._mode_lbl.config(text=f' {_mode_display} ', bg='#222244', fg='#8888ff')
-        if band:
-            self.title(f"{MY_CALLSIGN} — Ham Radio Companion  [{band} {_mode_display}]  {MY_GRID}")
+        # -- per-slice mode indicators ---------------------------------------
+        _title_parts = []
+        for _sn, _sl_lbl in self._slice_lbls.items():
+            _sl_st = slice_states.get(_sn, {})
+            _sl_band = _sl_st.get('band', '') or '--'
+            _sl_mode = _sl_st.get('mode', '') or '--'
+            _sl_text = f' {_sn}:{_sl_band} {_sl_mode} '
+            if _sl_mode == 'FT4':
+                _sl_lbl.config(text=_sl_text, bg='#443300', fg='#ffaa00')
+            elif _sl_mode == 'FT8':
+                _sl_lbl.config(text=_sl_text, bg='#224422', fg='#44ff44')
+            else:
+                _sl_lbl.config(text=_sl_text, bg='#222244', fg='#8888ff')
+            if _sl_band != '--':
+                _title_parts.append(f"{_sn}:{_sl_band} {_sl_mode}")
+        if _title_parts:
+            self.title(f"{MY_CALLSIGN} — Ham Radio Companion  [{' | '.join(_title_parts)}]  {MY_GRID}")
 
 
 
@@ -1767,7 +1821,11 @@ def main() -> None:
         sys.exit(1)
 
     state = AppState()
-    threading.Thread(target=_udp_worker,   args=(state,), daemon=True).start()
+    for _sn, _sp in _SLICES.items():
+        threading.Thread(
+            target=_udp_worker, args=(state, _sn, _sp),
+            daemon=True, name=f'udp-slice-{_sn}'
+        ).start()
     threading.Thread(target=_mqtt_worker,  args=(state,), daemon=True).start()
     threading.Thread(target=_log_worker,   args=(state,), daemon=True).start()
     threading.Thread(target=_lookup_worker,               daemon=True).start()
