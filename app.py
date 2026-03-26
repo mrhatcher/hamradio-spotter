@@ -1878,6 +1878,20 @@ class HamApp(tk.Tk):
 _jtdx_processes: dict[str, subprocess.Popen] = {}
 
 
+def _is_jtdx_running(rig_name: str) -> bool:
+    """Check if a JTDX process with this rig-name is already running."""
+    try:
+        result = subprocess.run(
+            ['tasklist', '/FI', 'IMAGENAME eq jtdx.exe', '/FO', 'CSV', '/NH'],
+            capture_output=True, text=True, timeout=5)
+        # If jtdx.exe appears in tasklist, assume it's running
+        # (Can't easily check --rig-name from tasklist, but if any jtdx.exe is
+        # running for this rig-name, launching a duplicate will fail gracefully)
+        return 'jtdx.exe' in result.stdout.lower()
+    except Exception:
+        return False
+
+
 def _launch_jtdx(slice_name: str) -> None:
     """Launch JTDX for a slice if not already running."""
     if slice_name in _jtdx_processes:
@@ -1890,6 +1904,9 @@ def _launch_jtdx(slice_name: str) -> None:
         return
     if not FLEX_JTDX_EXE or not os.path.isfile(FLEX_JTDX_EXE):
         print(f"[FLEX] JTDX executable not found: {FLEX_JTDX_EXE}")
+        return
+    if _is_jtdx_running(rig_name):
+        print(f"[FLEX] JTDX already running — skipping launch for slice {slice_name}")
         return
     cmd = [FLEX_JTDX_EXE, '--rig-name', rig_name]
     print(f"[FLEX] Launching JTDX for slice {slice_name}: {cmd}")
