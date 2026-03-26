@@ -1917,6 +1917,7 @@ def _flex_worker(state: AppState) -> None:
 
     # Map Flex slice numbers (0,1,2,3) to our slice names (A,B,C,D)
     _slice_map = {i: name for i, name in enumerate(sorted(_SLICES))}
+    _last_mode: dict[str, str] = {}  # slice_name -> last known mode
 
     def on_update(slice_num: int, mode: str, in_use: bool, freq_mhz: float):
         sname = _slice_map.get(slice_num, '')
@@ -1925,13 +1926,17 @@ def _flex_worker(state: AppState) -> None:
         # Update AppState with band/mode from Flex
         band = _freq_to_band(int(freq_mhz * 1_000_000)) if freq_mhz else ''
         if mode:
+            prev_mode = _last_mode.get(sname, '')
+            _last_mode[sname] = mode
             state.set_band_mode(band, mode, slice_name=sname)
-        # Auto-launch JTDX on DIGU detection
-        if mode == 'DIGU' and in_use and FLEX_AUTO_JTDX:
-            _launch_jtdx(sname)
-        # Auto-close JTDX when leaving DIGU
-        elif mode != 'DIGU' and FLEX_AUTO_JTDX:
-            _close_jtdx(sname)
+            if mode != prev_mode:
+                print(f"[FLEX] Slice {sname} (#{slice_num}) mode: {prev_mode or '?'} -> {mode}")
+            # Auto-launch JTDX on DIGU detection
+            if mode == 'DIGU' and in_use and FLEX_AUTO_JTDX:
+                _launch_jtdx(sname)
+            # Auto-close JTDX when mode changed FROM DIGU to something else
+            elif prev_mode == 'DIGU' and mode != 'DIGU' and FLEX_AUTO_JTDX:
+                _close_jtdx(sname)
 
     _backoff = 5
     while True:
