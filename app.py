@@ -2083,6 +2083,17 @@ def _close_jtdx(slice_name: str) -> None:
         except subprocess.TimeoutExpired:
             proc.kill()
     _jtdx_processes.pop(slice_name, None)
+    # Clean up stale lock file so JTDX can restart cleanly
+    rig_name = FLEX_JTDX_RIGS.get(slice_name, '')
+    if rig_name:
+        lock_file = os.path.join(
+            os.environ.get('LOCALAPPDATA', ''), 'Temp', f'{rig_name}.lock')
+        try:
+            if os.path.exists(lock_file):
+                os.remove(lock_file)
+                print(f"[FLEX] Removed lock file: {lock_file}")
+        except OSError:
+            pass
 
 
 def _flex_worker(state: AppState) -> None:
@@ -2130,6 +2141,9 @@ def _flex_worker(state: AppState) -> None:
     _backoff = 5
     while True:
         try:
+            # Clear mappings on each connect so we re-discover slices fresh
+            _slice_map.clear()
+            _last_mode.clear()
             mon.connect()
             state.flex_connected = True
             _backoff = 5  # reset on successful connect
