@@ -28,6 +28,7 @@ import queue as _queue_mod
 import re
 import socket
 import struct
+import subprocess
 import sys
 import threading
 import time
@@ -84,6 +85,17 @@ WORKED_CUTOFF_DAYS   = _get("filter",   "worked_cutoff_days",    730)
 SOUND_ENABLED        = _get("alerts",  "sound_enabled",         "yes").lower() in ("yes", "true", "1")
 SOUND_NEW_MUTUAL     = _get("alerts",  "sound_new_mutual",      "default")
 SOUND_NEEDED         = _get("alerts",  "sound_needed",          "default")
+
+# Flex 6600 radio integration
+FLEX_ENABLED     = _get("flex_radio", "enabled", "no").lower() in ("yes", "true", "1")
+FLEX_IP          = _get("flex_radio", "ip", "")
+FLEX_PORT        = _get("flex_radio", "tcp_port", 4992)
+FLEX_AUTO_JTDX   = _get("flex_radio", "auto_launch_jtdx", "yes").lower() in ("yes", "true", "1")
+FLEX_JTDX_PATHS: dict[str, str] = {}
+for _sn in sorted(_SLICES):
+    _jp = _get("flex_radio", f"jtdx_slice_{_sn.lower()}", "")
+    if _jp:
+        FLEX_JTDX_PATHS[_sn] = _jp
 
 # Station profile for propagation
 MY_GRID              = _get("station_profile", "grid",         "FM06").upper()
@@ -782,6 +794,7 @@ class AppState:
         self.log_path: str     = ''
         self.last_psk: Optional[datetime] = None
         self.mqtt_connected: bool          = False
+        self.flex_connected: bool          = False
         self._prev_mutual: set = set()     # GUI-thread only
 
         # Per-slice state (band/mode per receiver slice)
@@ -1224,6 +1237,14 @@ class HamApp(tk.Tk):
             bar, text='Solar: loading...',
             bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
         self._solar_lbl.pack(side='right', padx=8)
+
+        if FLEX_ENABLED:
+            self._flex_lbl = tk.Label(
+                bar, text='FLEX: connecting...',
+                bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
+            self._flex_lbl.pack(side='right', padx=8)
+        else:
+            self._flex_lbl = None
 
         self._psk_lbl = tk.Label(
             bar, text='MQTT  --  connecting ...',
@@ -1673,6 +1694,13 @@ class HamApp(tk.Tk):
         else:
             self._psk_lbl.config(text='MQTT  --  reconnecting ...', fg='#cc4444')
 
+        # -- Flex status -------------------------------------------------------
+        if self._flex_lbl is not None:
+            if self.state.flex_connected:
+                self._flex_lbl.config(text='FLEX: connected', fg='#44cc44')
+            else:
+                self._flex_lbl.config(text='FLEX: disconnected', fg='#cc4444')
+
         # -- heard / psk debug counter -----------------------------------------
         self._heard_lbl.config(
             text=f"heard: {len(heard)}  |  psk: {len(spotted_by)}")
@@ -1844,6 +1872,78 @@ class HamApp(tk.Tk):
 
 
 
+# -- Flex 6600 integration ----------------------------------------------------
+
+_jtdx_processes: dict[str, subprocess.Popen] = {}
+
+
+def _launch_jtdx(slice_name: str) -> None:
+    """Launch JTDX for a slice if not already running."""
+    if slice_name in _jtdx_processes:
+        proc = _jtdx_processes[slice_name]
+        if proc.poll() is None:  # still running
+            return
+    exe = FLEX_JTDX_PATHS.get(slice_name)
+    if not exe or not os.path.isfile(exe):
+        print(f"[FLEX] JTDX path not configured or missing for slice {slice_name}")
+        return
+    print(f"[FLEX] Launching JTDX for slice {slice_name}: {exe}")
+    _jtdx_processes[slice_name] = subprocess.Popen(
+        [exe], cwd=os.path.dirname(exe))
+
+
+def _close_jtdx(slice_name: str) -> None:
+    """Terminate JTDX for a slice if running."""
+    proc = _jtdx_processes.get(slice_name)
+    if proc and proc.poll() is None:
+        print(f"[FLEX] Closing JTDX for slice {slice_name} (mode changed from DIGU)")
+        proc.terminate()
+        try:
+            proc.wait(timeout=5)
+        except subprocess.TimeoutExpired:
+            proc.kill()
+    _jtdx_processes.pop(slice_name, None)
+
+
+def _flex_worker(state: AppState) -> None:
+    """Monitor Flex 6600 TCP API for DIGU mode changes and auto-launch JTDX."""
+    from flex_monitor import FlexMonitor
+    mon = FlexMonitor(FLEX_IP, FLEX_PORT)
+
+    # Map Flex slice numbers (0,1,2,3) to our slice names (A,B,C,D)
+    _slice_map = {i: name for i, name in enumerate(sorted(_SLICES))}
+
+    def on_update(slice_num: int, mode: str, in_use: bool, freq_mhz: float):
+        sname = _slice_map.get(slice_num, '')
+        if not sname:
+            return
+        # Update AppState with band/mode from Flex
+        band = _freq_to_band(int(freq_mhz * 1_000_000)) if freq_mhz else ''
+        if mode:
+            state.set_band_mode(band, mode, slice_name=sname)
+        # Auto-launch JTDX on DIGU detection
+        if mode == 'DIGU' and in_use and FLEX_AUTO_JTDX:
+            _launch_jtdx(sname)
+        # Auto-close JTDX when leaving DIGU
+        elif mode != 'DIGU' and FLEX_AUTO_JTDX:
+            _close_jtdx(sname)
+
+    _backoff = 5
+    while True:
+        try:
+            mon.connect()
+            state.flex_connected = True
+            _backoff = 5  # reset on successful connect
+            mon.subscribe_slices()
+            mon.read_loop(on_update)
+        except Exception as exc:
+            state.flex_connected = False
+            mon.disconnect()
+            print(f"[FLEX] Error: {exc} — reconnecting in {_backoff}s")
+            time.sleep(_backoff)
+            _backoff = min(_backoff * 2, 60)
+
+
 # -- Entry point --------------------------------------------------------------
 
 def main() -> None:
@@ -1862,6 +1962,10 @@ def main() -> None:
     threading.Thread(target=_mqtt_worker,  args=(state,), daemon=True).start()
     threading.Thread(target=_log_worker,   args=(state,), daemon=True).start()
     threading.Thread(target=_lookup_worker,               daemon=True).start()
+    if FLEX_ENABLED and FLEX_IP:
+        threading.Thread(target=_flex_worker, args=(state,),
+                         daemon=True, name='flex-radio').start()
+        print(f"[FLEX] Worker started — monitoring {FLEX_IP}:{FLEX_PORT}")
 
     app = HamApp(state)
     app.mainloop()
