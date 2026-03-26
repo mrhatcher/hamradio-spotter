@@ -1879,15 +1879,17 @@ _jtdx_processes: dict[str, subprocess.Popen] = {}
 
 
 def _is_jtdx_running(rig_name: str) -> bool:
-    """Check if a JTDX process with this rig-name is already running."""
+    """Check if a JTDX process with this specific rig-name is already running."""
     try:
+        # Use WMIC to get command lines of all jtdx.exe processes
         result = subprocess.run(
-            ['tasklist', '/FI', 'IMAGENAME eq jtdx.exe', '/FO', 'CSV', '/NH'],
+            ['wmic', 'process', 'where', "name='jtdx.exe'", 'get', 'commandline'],
             capture_output=True, text=True, timeout=5)
-        # If jtdx.exe appears in tasklist, assume it's running
-        # (Can't easily check --rig-name from tasklist, but if any jtdx.exe is
-        # running for this rig-name, launching a duplicate will fail gracefully)
-        return 'jtdx.exe' in result.stdout.lower()
+        # Check if any running instance has this specific --rig-name
+        for line in result.stdout.splitlines():
+            if rig_name in line:
+                return True
+        return False
     except Exception:
         return False
 
