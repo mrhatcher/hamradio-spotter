@@ -1936,13 +1936,25 @@ def _flex_worker(state: AppState) -> None:
     from flex_monitor import FlexMonitor
     mon = FlexMonitor(FLEX_IP, FLEX_PORT)
 
-    # Map Flex slice numbers (0,1,2,3) to our slice names (A,B,C,D)
-    _slice_map = {i: name for i, name in enumerate(sorted(_SLICES))}
-    _last_mode: dict[str, str] = {}  # slice_name -> last known mode
+    # Dynamically map Flex slice numbers to our slice names (A, B, ...)
+    # Flex slice numbers are assigned dynamically — we map them in order of
+    # first appearance to our sorted slice names.
+    _slice_names = sorted(_SLICES.keys())  # ['A', 'B', ...]
+    _slice_map: dict[int, str] = {}        # flex_num -> slice_name
+    _last_mode: dict[str, str] = {}        # slice_name -> last known mode
 
     def on_update(slice_num: int, mode: str, in_use: bool, freq_mhz: float):
+        # Auto-assign Flex slice numbers to our slice names on first sight
+        if slice_num not in _slice_map:
+            used = set(_slice_map.values())
+            for sn in _slice_names:
+                if sn not in used:
+                    _slice_map[slice_num] = sn
+                    print(f"[FLEX] Mapped Flex slice #{slice_num} -> {sn}")
+                    break
         sname = _slice_map.get(slice_num, '')
         if not sname:
+            print(f"[FLEX] Ignoring slice #{slice_num} (no free slot)")
             return
         # Update AppState with band/mode from Flex
         band = _freq_to_band(int(freq_mhz * 1_000_000)) if freq_mhz else ''

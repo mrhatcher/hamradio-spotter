@@ -103,6 +103,12 @@ class FlexMonitor:
 
             parsed = self.parse_slice_status(line)
             if parsed:
+                # Debug: log all slice status updates that include mode
+                if parsed.get('mode'):
+                    print(f"[FLEX-DBG] slice #{parsed['slice_num']} "
+                          f"mode={parsed.get('mode','')} "
+                          f"in_use={parsed.get('in_use','')} "
+                          f"freq={parsed.get('rf_frequency','')}")
                 callback(
                     parsed['slice_num'],
                     parsed.get('mode', ''),
