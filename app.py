@@ -663,6 +663,64 @@ def _classify_needed(cs: str, band: str, mode: str,
     return result
 
 
+def _score_band(band: str, activity: dict, needed_calls: set,
+                current_band: str, band_conditions: dict) -> tuple[int, str]:
+    """Score a band for QSY recommendation.
+
+    Returns (score, reason_text).
+    Higher score = more attractive band to QSY to.
+    """
+    from propagation import _band_to_freq, _freq_to_band_group
+
+    score = 0
+    parts: list[str] = []
+
+    n_needed = len(needed_calls)
+    n_unique = len(activity.get('unique_calls', set()))
+    avg_snr = activity.get('avg_snr', -99)
+    last_spot = activity.get('last_spot', 0)
+
+    # Needed stations are the dominant factor
+    if n_needed:
+        score += n_needed * 50
+        parts.append(f"{n_needed} needed")
+
+    # Station count (more stations hearing you = better propagation)
+    score += n_unique * 2
+    parts.append(f"{n_unique} stns")
+
+    # SNR quality bonus
+    if avg_snr > -10:
+        score += 10
+    elif avg_snr > -15:
+        score += 5
+
+    # Band condition bonus
+    freq = _band_to_freq(band)
+    grp = _freq_to_band_group(freq)
+    if grp and grp in band_conditions:
+        cond = band_conditions[grp].get('day', 'Unknown')
+        if cond == 'Good':
+            score += 20
+            parts.append('Good')
+        elif cond == 'Fair':
+            score += 10
+            parts.append('Fair')
+        else:
+            parts.append(cond)
+
+    # Recency penalty — if no spots in last 3 minutes, band may be closing
+    now_ts = time.time()
+    if last_spot and (now_ts - last_spot) > 180:
+        score -= 15
+
+    # Penalty if this IS the current band (no need to QSY to where you are)
+    if band == current_band:
+        score -= 1000
+
+    return score, ' | '.join(parts)
+
+
 def _is_worked(cs: str, band: str, mode: str, logged: dict, cutoff: date) -> bool:
     """
     True if cs was logged on this exact band AND mode within the cutoff window.
@@ -716,6 +774,10 @@ class AppState:
         self._snr_heard_samples: list[int] = []
         self._snr_spot_samples: list[int]  = []
 
+        # Per-band activity tracker for Auto-QSY (rolling window of spots)
+        # band -> list of (timestamp, callsign, snr)
+        self._band_spots: dict[str, list[tuple[float, str, int]]] = {}
+
         # Propagation engine
         from propagation import PropagationEngine, ANTENNA_DIPOLE, ANTENNA_VERTICAL, ANTENNA_YAGI_3
         _ant_map = {"dipole": ANTENNA_DIPOLE, "vertical": ANTENNA_VERTICAL, "yagi": ANTENNA_YAGI_3}
@@ -755,6 +817,9 @@ class AppState:
                 self.last_psk = datetime.now(timezone.utc)
             self.total_spot_count += 1
             self._snr_spot_samples.append(snr)
+            # Track per-band activity for Auto-QSY
+            if band:
+                self._band_spots.setdefault(band, []).append((ts, cs, snr))
 
     def expire_spots(self) -> None:
         cutoff = time.time() - PSK_HEARD_ME_MAX_AGE
@@ -762,6 +827,33 @@ class AppState:
             stale = [cs for cs, v in self.spotted_by.items() if v['time'] < cutoff]
             for cs in stale:
                 del self.spotted_by[cs]
+            # Expire old band activity spots too
+            for band in list(self._band_spots):
+                self._band_spots[band] = [
+                    (ts, cs, snr) for ts, cs, snr in self._band_spots[band]
+                    if ts >= cutoff
+                ]
+                if not self._band_spots[band]:
+                    del self._band_spots[band]
+
+    def band_activity_snapshot(self) -> dict[str, dict]:
+        """Return per-band activity summary from rolling spot window.
+        Returns: {band: {unique_calls: set, spot_count: int, avg_snr: float, last_spot: float}}
+        """
+        with self._lock:
+            result: dict[str, dict] = {}
+            for band, spots in self._band_spots.items():
+                if not spots:
+                    continue
+                calls = {cs for _, cs, _ in spots}
+                snr_sum = sum(snr for _, _, snr in spots)
+                result[band] = {
+                    'unique_calls': calls,
+                    'spot_count':   len(spots),
+                    'avg_snr':      snr_sum / len(spots),
+                    'last_spot':    max(ts for ts, _, _ in spots),
+                }
+            return result
 
     def set_mqtt_connected(self, connected: bool) -> None:
         with self._lock:
@@ -1109,6 +1201,20 @@ class HamApp(tk.Tk):
 
         self._stat_psk_snr_lbl = tk.Label(sbar, text='SNR>me: --', **_val_cfg)
         self._stat_psk_snr_lbl.pack(side='left')
+
+        # -- Auto-QSY suggestion banner ----------------------------------------
+        self._qsy_frame = tk.Frame(self, bg='#1a1a2e', pady=3)
+        self._qsy_frame.pack(fill='x', side='top')
+
+        self._qsy_lbl = tk.Label(
+            self._qsy_frame, text='  QSY: waiting for PSKReporter data...',
+            bg='#1a1a2e', fg='#666688', font=('Courier', 10), anchor='w')
+        self._qsy_lbl.pack(side='left', padx=8, fill='x', expand=True)
+
+        self._qsy_current_lbl = tk.Label(
+            self._qsy_frame, text='',
+            bg='#1a1a2e', fg='#888888', font=('Courier', 9))
+        self._qsy_current_lbl.pack(side='right', padx=8)
 
         # -- Mutual Spots panel ------------------------------------------------
         mf = tk.LabelFrame(
@@ -1553,6 +1659,88 @@ class HamApp(tk.Tk):
             text=f"SNR heard: {'/'.join(snr_parts)}" if snr_parts else "SNR heard: --")
         if ss['avg_snr_spots'] is not None:
             self._stat_psk_snr_lbl.config(text=f"SNR>me: {ss['avg_snr_spots']:+.0f}dB")
+
+        # -- Auto-QSY suggestion -----------------------------------------------
+        try:
+            band_activity = self.state.band_activity_snapshot()
+            solar = self.state.prop_engine.get_solar_summary() or {}
+            bconds = solar.get('band_conditions', {})
+
+            # Score each band; populate needed_calls per band
+            band_scores: list[tuple[int, str, str, int, set]] = []  # (score, band, reason, n_needed, needed_set)
+            for b, act in band_activity.items():
+                # Classify needed stations for this band
+                _b_needed: set = set()
+                for _bcs in act['unique_calls']:
+                    _bn = _classify_needed(
+                        _bcs, b, cur_mode or 'FT8',
+                        _w_dxcc, _w_states, _w_band_slots, _w_mode_slots)
+                    if _bn:
+                        _b_needed.add(_bcs)
+                sc, reason = _score_band(b, act, _b_needed, band, bconds)
+                band_scores.append((sc, b, reason, len(_b_needed), _b_needed))
+
+            band_scores.sort(reverse=True)
+
+            # Show top 2 suggestions (Flex 6600 dual-receive)
+            suggestions = [bs for bs in band_scores if bs[0] > 0][:2]
+
+            if suggestions:
+                top_score, top_band, top_reason, top_needed, top_needed_set = suggestions[0]
+
+                # Classify the needed types for display
+                _n_dxcc_qsy = _n_state_qsy = _n_bslot_qsy = 0
+                for _qcs in top_needed_set:
+                    _qn = _classify_needed(
+                        _qcs, top_band, cur_mode or 'FT8',
+                        _w_dxcc, _w_states, _w_band_slots, _w_mode_slots)
+                    if 'new_dxcc' in _qn:
+                        _n_dxcc_qsy += 1
+                    if 'new_state' in _qn:
+                        _n_state_qsy += 1
+                    if 'new_bandslot' in _qn:
+                        _n_bslot_qsy += 1
+
+                # Build needed breakdown
+                need_parts: list[str] = []
+                if _n_dxcc_qsy:
+                    need_parts.append(f"{_n_dxcc_qsy} DXCC")
+                if _n_state_qsy:
+                    need_parts.append(f"{_n_state_qsy} state")
+                if _n_bslot_qsy:
+                    need_parts.append(f"{_n_bslot_qsy} band-slot")
+                need_str = f" ({', '.join(need_parts)})" if need_parts else ""
+
+                avg_snr = band_activity[top_band].get('avg_snr', 0)
+                text = f"  QSY -> {top_band}: {top_needed} needed{need_str} | {top_reason} | avg SNR {avg_snr:+.0f}"
+
+                # Second suggestion
+                if len(suggestions) > 1:
+                    s2_score, s2_band, s2_reason, s2_needed, _ = suggestions[1]
+                    text += f"    Also: {s2_band} ({s2_needed} needed, {s2_reason})"
+
+                # Color based on urgency
+                if top_needed > 0:
+                    bg = '#1a3a1a'  # dark green — needed stations available
+                    fg = '#44ff44'
+                else:
+                    bg = '#2a2a1a'  # dark yellow — activity but no needed
+                    fg = '#cccc44'
+
+                self._qsy_lbl.config(text=text, bg=bg, fg=fg)
+                self._qsy_frame.config(bg=bg)
+                self._qsy_current_lbl.config(
+                    text=f'[Current: {band or "?"}]', bg=bg, fg='#888888')
+            else:
+                self._qsy_lbl.config(
+                    text='  QSY: current band is optimal (or no cross-band data yet)',
+                    bg='#1a1a2e', fg='#666688')
+                self._qsy_frame.config(bg='#1a1a2e')
+                self._qsy_current_lbl.config(
+                    text=f'[Current: {band or "?"}]', bg='#1a1a2e', fg='#888888')
+        except Exception as _qsy_err:
+            self._qsy_lbl.config(text=f'  QSY: error — {_qsy_err}',
+                                 bg='#1a1a2e', fg='#cc4444')
 
         # -- mode indicator + title bar ------------------------------------------
         _mode_display = cur_mode or '--'
