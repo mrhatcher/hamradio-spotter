@@ -37,227 +37,25 @@ APP_TITLE   = "Ham Radio Log Sync"
 
 
 # =============================================================================
-#  ADIF UTILITIES
+#  ADIF UTILITIES — delegated to log_utils.py (shared, no GUI deps)
 # =============================================================================
 
-def _parse_adif_records(content: str) -> list:
-    """
-    Parse raw ADIF text into a list of {FIELD: value} dicts.
-    Handles <FIELDNAME:LENGTH>value format. Skips header before <EOH>.
-    """
-    eoh = re.search(r'<EOH>', content, re.IGNORECASE)
-    if eoh:
-        content = content[eoh.end():]
-
-    tag_re = re.compile(r'<(\w+)(?::(\d+)(?::\w+)?)?>',  re.IGNORECASE)
-    records, current, pos = [], {}, 0
-
-    while pos < len(content):
-        m = tag_re.search(content, pos)
-        if not m:
-            break
-        name     = m.group(1).upper()
-        length_s = m.group(2)
-        tag_end  = m.end()
-
-        if name == 'EOR':
-            if current:
-                records.append(current)
-                current = {}
-            pos = tag_end
-        elif name == 'EOH':
-            pos = tag_end
-        elif length_s is not None:
-            n = int(length_s)
-            current[name] = content[tag_end:tag_end + n].strip()
-            pos = tag_end + n
-        else:
-            pos = tag_end
-
-    return records
-
-
-def _build_adif(records: list, header: str = '') -> str:
-    """Build an ADIF string from a list of field dicts.
-    Fields starting with '_' are internal/display-only and are skipped."""
-    parts = []
-    if header:
-        parts.append(header + '\n')
-    parts.append('<EOH>\n')
-    for rec in records:
-        for field, value in rec.items():
-            if value and not field.startswith('_'):
-                s = str(value)
-                parts.append(f'<{field}:{len(s)}>{s} ')
-        parts.append('<EOR>\n')
-    return ''.join(parts)
-
-
-# Band aliases: map common variants → ADIF standard band name
-_BAND_ALIASES: dict = {
-    # Standard names (pass-through, lowercased)
-    '160m': '160m', '80m': '80m', '60m': '60m', '40m': '40m',
-    '30m': '30m',   '20m': '20m', '17m': '17m', '15m': '15m',
-    '12m': '12m',   '10m': '10m', '6m':  '6m',  '4m':  '4m',
-    '2m': '2m', '1.25m': '1.25m', '70cm': '70cm', '33cm': '33cm',
-    '23cm': '23cm',
-    # Frequency-based identifiers (MHz)
-    '1.8': '160m', '1.8mhz': '160m',
-    '3.5': '80m',  '3.5mhz': '80m',  '3.7': '80m',  '3.7mhz': '80m',
-    '5':   '60m',  '5mhz':   '60m',
-    '7':   '40m',  '7mhz':   '40m',  '7.0': '40m',  '7.1': '40m',
-    '10':  '30m',  '10mhz':  '30m',  '10.1': '30m',
-    '14':  '20m',  '14mhz':  '20m',  '14.0': '20m', '14.2': '20m',
-    '18':  '17m',  '18mhz':  '17m',  '18.1': '17m',
-    '21':  '15m',  '21mhz':  '15m',  '21.0': '15m',
-    '24':  '12m',  '24mhz':  '12m',  '24.9': '12m',
-    '28':  '10m',  '28mhz':  '10m',  '28.0': '10m', '29': '10m',
-    '50':  '6m',   '50mhz':  '6m',
-    '144': '2m',   '144mhz': '2m',   '145': '2m',
-    '430': '70cm', '430mhz': '70cm', '432': '70cm', '440': '70cm',
-    '1240': '23cm', '1296': '23cm',
-}
-
-# Mode aliases: normalize common variants → canonical mode name
-_MODE_ALIASES: dict = {
-    # SSB
-    'usb': 'SSB', 'lsb': 'SSB', 'ssb': 'SSB',
-    # CW
-    'cw': 'CW', 'cw-r': 'CW',
-    # AM / FM
-    'am': 'AM', 'fm': 'FM',
-    # Digital — FT8 / FT4
-    'ft8': 'FT8', 'ft4': 'FT4',
-    # JT modes
-    'jt65': 'JT65', 'jt65a': 'JT65', 'jt65b': 'JT65', 'jt65c': 'JT65',
-    'jt9': 'JT9', 'jt9-1': 'JT9',
-    # WSPR
-    'wspr': 'WSPR',
-    # PSK
-    'psk':    'PSK31', 'psk31': 'PSK31', 'bpsk31': 'PSK31', 'psk-31': 'PSK31',
-    'psk63':  'PSK63', 'bpsk63': 'PSK63',
-    'psk125': 'PSK125',
-    # RTTY
-    'rtty': 'RTTY', 'fsk': 'RTTY', 'afsk': 'RTTY',
-    # Other digital
-    'olivia': 'OLIVIA',
-    'mfsk': 'MFSK', 'mfsk16': 'MFSK', 'mfsk8': 'MFSK',
-    'thor': 'THOR',
-    'hell': 'HELL', 'hellschreiber': 'HELL',
-    'sstv': 'SSTV',
-    'digi': 'DIGI', 'data': 'DIGI',
-    # JS8
-    'js8': 'JS8', 'js8call': 'JS8',
-}
-
-
-def _norm_band(band: str) -> str:
-    """Normalize a band string to ADIF standard (e.g. '7mhz' → '40m')."""
-    return _BAND_ALIASES.get(band.lower().strip(), band.lower().strip())
-
-
-def _norm_mode(mode: str) -> str:
-    """Normalize a mode string to canonical form (e.g. 'USB' → 'SSB')."""
-    return _MODE_ALIASES.get(mode.lower().strip(), mode.upper().strip())
-
-
-def _qso_key(rec: dict) -> tuple:
-    """Dedup key: (callsign, YYYYMMDD, HHMM, normalized-band, normalized-mode)."""
-    call = rec.get('CALL', '').upper().strip()
-    date = rec.get('QSO_DATE', '').strip()
-    time = rec.get('TIME_ON', '0000')[:4].strip()
-    band = _norm_band(rec.get('BAND', ''))
-    mode = _norm_mode(rec.get('MODE', ''))
-    return (call, date, time, band, mode)
-
-
-def _keys_of(records: list) -> set:
-    return {_qso_key(r) for r in records}
-
-
-def _find_missing(source_records: list, target_records: list,
-                  window: int = 1) -> list:
-    """
-    Return records from source that are genuinely absent from target.
-
-    A record is considered present (not missing) if target contains a record
-    with the same CALL, QSO_DATE, normalized MODE, and a TIME_ON within
-    ±window minutes.  Band is intentionally excluded from this check so that
-    minor band-label discrepancies between logging services do not create
-    phantom missing records.
-
-    An exact key match (_qso_key) is also accepted as present.
-    """
-    # Fast path: exact key set
-    exact_keys: set = _keys_of(target_records)
-
-    # Fuzzy lookup: (call, date, norm_mode) → [time_mins, ...]
-    fuzzy: dict = {}
-    for rec in target_records:
-        call = rec.get('CALL', '').upper().strip()
-        date = rec.get('QSO_DATE', '').strip()
-        mode = _norm_mode(rec.get('MODE', ''))
-        t    = _time_to_mins(rec.get('TIME_ON', ''))
-        fuzzy.setdefault((call, date, mode), []).append(t)
-
-    result = []
-    for rec in source_records:
-        if _qso_key(rec) in exact_keys:
-            continue                          # exact match — already there
-        call = rec.get('CALL', '').upper().strip()
-        date = rec.get('QSO_DATE', '').strip()
-        mode = _norm_mode(rec.get('MODE', ''))
-        t    = _time_to_mins(rec.get('TIME_ON', ''))
-        if any(abs(t - tt) <= window for tt in fuzzy.get((call, date, mode), [])):
-            continue                          # fuzzy match — already there
-        result.append(rec)
-    return result
-
-
-def _is_round_time(rec: dict) -> bool:
-    """True if TIME_ON has :00 seconds or no seconds component at all."""
-    t = rec.get('TIME_ON', '')
-    if len(t) <= 4:
-        return True          # HHMM — no seconds, treat as :00
-    return t[4:6] == '00'
-
-
-def _dedupe_prefer_exact_time(records: list, window: int = 1) -> list:
-    """
-    Collapse near-duplicate records (same CALL + QSO_DATE + normalized BAND +
-    normalized MODE, TIME_ON within ±window minutes) down to one entry.
-
-    When two records match:
-      - Discard the one with :00 seconds (rounded/less accurate).
-      - Keep the one with actual seconds (e.g. :42 is more precise than :00).
-      - If both or neither have :00 seconds, keep the first one seen.
-    """
-    result: list = []
-
-    for rec in records:
-        call = rec.get('CALL', '').upper().strip()
-        date = rec.get('QSO_DATE', '').strip()
-        band = _norm_band(rec.get('BAND', ''))
-        mode = _norm_mode(rec.get('MODE', ''))
-        t    = _time_to_mins(rec.get('TIME_ON', ''))
-
-        matched = None
-        for j, existing in enumerate(result):
-            if (existing.get('CALL', '').upper().strip() == call
-                    and existing.get('QSO_DATE', '').strip() == date
-                    and _norm_band(existing.get('BAND', '')) == band
-                    and _norm_mode(existing.get('MODE', '')) == mode
-                    and abs(_time_to_mins(existing.get('TIME_ON', '')) - t) <= window):
-                matched = j
-                break
-
-        if matched is None:
-            result.append(rec)
-        elif _is_round_time(result[matched]) and not _is_round_time(rec):
-            # Existing is rounded (:00s), incoming has exact seconds — swap
-            result[matched] = rec
-
-    return result
+from log_utils import (
+    parse_adif_records  as _parse_adif_records,
+    build_adif          as _build_adif,
+    norm_band           as _norm_band,
+    norm_mode           as _norm_mode,
+    qso_key             as _qso_key,
+    keys_of             as _keys_of,
+    find_missing        as _find_missing,
+    is_round_time       as _is_round_time,
+    dedupe_prefer_exact_time as _dedupe_prefer_exact_time,
+    time_to_mins        as _time_to_mins,
+    date_to_ord         as _date_to_ord,
+    near_dupe_indices   as _near_dupe_indices,
+    BAND_ALIASES        as _BAND_ALIASES,
+    MODE_ALIASES        as _MODE_ALIASES,
+)
 
 
 # =============================================================================
@@ -305,6 +103,14 @@ _DEFAULT_CONFIG: dict = {
     'hrdlog_code':  '',
     'hrdlog_path':  '',
     'gt2_path':     '',
+    # LoTW (used by Log Scanner)
+    'lotw_user':    '',
+    'lotw_pass':    '',
+    # ClubLog (used by Log Scanner)
+    'clublog_call':  '',
+    'clublog_email': '',
+    'clublog_pass':  '',
+    'clublog_api':   '',
     'advanced':     dict(_DEFAULT_ADVANCED),
 }
 
@@ -764,110 +570,7 @@ class SyncEngine:
         return '  '.join(parts) if parts else 'none'
 
 
-# =============================================================================
-#  NEAR-DUPE DETECTION
-# =============================================================================
-
-def _time_to_mins(time_str: str) -> int:
-    """Convert HHMM string to total minutes since midnight."""
-    try:
-        s = (time_str + '0000')[:4]
-        return int(s[:2]) * 60 + int(s[2:4])
-    except Exception:
-        return 0
-
-
-def _date_to_ord(date_str: str) -> Optional[int]:
-    """Convert YYYYMMDD to an integer day-ordinal for cross-day arithmetic."""
-    try:
-        return datetime.strptime(date_str.strip(), '%Y%m%d').toordinal()
-    except Exception:
-        return None
-
-
-def _near_dupe_indices(missing: list, target: list, window: int = 15) -> dict:
-    """
-    Return {index: reason_string} for records in `missing` that likely already
-    exist in `target` under a slightly different timestamp, band label, or mode.
-
-    Detection tiers (first match wins):
-      Tier 1 — same CALL + DATE + normalized BAND + normalized MODE,
-                TIME_ON within ±window minutes.
-      Tier 2 — same CALL + normalized BAND + normalized MODE,
-                adjacent UTC date (midnight rollover),
-                combined time difference ≤ window minutes.
-      Tier 3 — same CALL + DATE, TIME_ON within ±5 min regardless of band/mode.
-                (catches records where band or mode was logged differently)
-    """
-    # --- build target lookups ---
-
-    # Tier 1: (CALL, DATE, norm_band, norm_mode) → [time_mins, ...]
-    tier1: dict = {}
-    # Tier 2: (CALL, norm_band, norm_mode) → [(date_ord, time_mins), ...]
-    tier2: dict = {}
-    # Tier 3: (CALL, DATE) → [time_mins, ...]
-    tier3: dict = {}
-
-    for rec in target:
-        call = rec.get('CALL', '').upper().strip()
-        date = rec.get('QSO_DATE', '').strip()
-        band = _norm_band(rec.get('BAND', ''))
-        mode = _norm_mode(rec.get('MODE', ''))
-        t    = _time_to_mins(rec.get('TIME_ON', ''))
-        dord = _date_to_ord(date)
-
-        tier1.setdefault((call, date, band, mode), []).append(t)
-        if dord is not None:
-            tier2.setdefault((call, band, mode), []).append((dord, t))
-        tier3.setdefault((call, date), []).append(t)
-
-    result: dict = {}
-
-    for i, rec in enumerate(missing):
-        call = rec.get('CALL', '').upper().strip()
-        date = rec.get('QSO_DATE', '').strip()
-        band = _norm_band(rec.get('BAND', ''))
-        mode = _norm_mode(rec.get('MODE', ''))
-        t    = _time_to_mins(rec.get('TIME_ON', ''))
-        dord = _date_to_ord(date)
-
-        # --- Tier 1 ---
-        best: Optional[int] = None
-        for tt in tier1.get((call, date, band, mode), []):
-            diff = abs(t - tt)
-            if diff <= window and (best is None or diff < best):
-                best = diff
-        if best is not None:
-            result[i] = f'Near-dupe: same call/band/mode, time ±{best}min'
-            continue
-
-        # --- Tier 2: UTC midnight boundary ---
-        if dord is not None:
-            for (td_ord, tt) in tier2.get((call, band, mode), []):
-                if abs(td_ord - dord) == 1:
-                    # Adjust the "earlier" day's time up by 1440 to make them comparable
-                    if td_ord > dord:
-                        diff = abs(t - (tt + 1440))   # target is next day
-                    else:
-                        diff = abs((t + 1440) - tt)   # missing is next day
-                    if diff <= window:
-                        result[i] = f'Near-dupe: UTC date boundary (±{diff}min)'
-                        break
-            if i in result:
-                continue
-
-        # --- Tier 3: same call/date, time very close, band/mode differs ---
-        for tt in tier3.get((call, date), []):
-            diff = abs(t - tt)
-            if diff <= 5:
-                orig_band = rec.get('BAND', '?')
-                orig_mode = rec.get('MODE', '?')
-                result[i] = (f'Same call/date, time ±{diff}min, '
-                             f'band/mode differs ({orig_band}/{orig_mode}) — verify')
-                break
-
-    return result
-
+# Near-dupe detection functions now imported from log_utils above.
 
 # =============================================================================
 #  REVIEW DIALOG

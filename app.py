@@ -70,6 +70,11 @@ LOG_FILE             = _get("log_files","hrd_log",               r"C:\Users\mich
 JTDX_LOG_FILE        = _get("log_files","jtdx_log",              r"C:\Users\micha\AppData\Local\JTDX\wsjtx_log.ADI")
 WORKED_CUTOFF_DAYS   = _get("filter",   "worked_cutoff_days",    730)
 
+# Alerts
+SOUND_ENABLED        = _get("alerts",  "sound_enabled",         "yes").lower() in ("yes", "true", "1")
+SOUND_NEW_MUTUAL     = _get("alerts",  "sound_new_mutual",      "default")
+SOUND_NEEDED         = _get("alerts",  "sound_needed",          "default")
+
 # Station profile for propagation
 MY_GRID              = _get("station_profile", "grid",         "FM06").upper()
 MY_POWER             = _get("station_profile", "power_watts",  100)
@@ -487,43 +492,7 @@ def _callsigns_in(message: str) -> list:
 
 # -- Log file loaders (ADIF + CSV) --------------------------------------------
 
-def _parse_adif_records(content: str) -> list:
-    """
-    Parse raw ADIF text into a list of {FIELD: value} dicts.
-    Handles the length-prefixed tag format: <FIELDNAME:LENGTH>value
-    and optional type specifier:            <FIELDNAME:LENGTH:TYPE>value
-    Skips everything before <EOH> (file header).
-    """
-    eoh = re.search(r'<EOH>', content, re.IGNORECASE)
-    if eoh:
-        content = content[eoh.end():]
-
-    tag_re = re.compile(r'<(\w+)(?::(\d+)(?::\w+)?)?>',  re.IGNORECASE)
-    records, current, pos = [], {}, 0
-
-    while pos < len(content):
-        m = tag_re.search(content, pos)
-        if not m:
-            break
-        name     = m.group(1).upper()
-        length_s = m.group(2)
-        tag_end  = m.end()
-
-        if name == 'EOR':
-            if current:
-                records.append(current)
-                current = {}
-            pos = tag_end
-        elif name == 'EOH':
-            pos = tag_end
-        elif length_s is not None:
-            n = int(length_s)
-            current[name] = content[tag_end:tag_end + n].strip()
-            pos = tag_end + n
-        else:
-            pos = tag_end
-
-    return records
+from log_utils import parse_adif_records as _parse_adif_records
 
 
 def _parse_qso_date(date_s: str) -> date:
@@ -606,12 +575,99 @@ def _load_log_file(path: str) -> dict:
     return _load_log_csv(path)
 
 
+# -- Sound alerts ---------------------------------------------------------------
+
+def _play_alert(alert_type: str) -> None:
+    """Play a non-blocking sound alert. alert_type: 'mutual' or 'needed'."""
+    try:
+        import winsound
+        sound = SOUND_NEEDED if alert_type == 'needed' else SOUND_NEW_MUTUAL
+        if sound == 'default':
+            if alert_type == 'needed':
+                winsound.MessageBeep(winsound.MB_ICONEXCLAMATION)
+            else:
+                winsound.MessageBeep(winsound.MB_OK)
+        elif os.path.isfile(sound):
+            winsound.PlaySound(sound, winsound.SND_FILENAME | winsound.SND_ASYNC)
+    except Exception:
+        pass  # no sound on non-Windows or if winsound fails
+
+
+# -- Needed station classification ---------------------------------------------
+
+def _build_worked_sets(logged: dict, cutoff: date) -> tuple:
+    """Build fast-lookup sets from the logged dict for needed-station checks.
+
+    Returns (worked_dxcc, worked_states, worked_band_slots, worked_mode_slots):
+        worked_dxcc:       set[str]              — DXCC entity names worked
+        worked_states:     set[str]              — US 2-letter states worked
+        worked_band_slots: set[tuple[str, str]]  — (dxcc_entity, band) pairs
+        worked_mode_slots: set[tuple[str, str]]  — (dxcc_entity, mode) pairs
+    """
+    worked_dxcc: set       = set()
+    worked_states: set     = set()
+    worked_band_slots: set = set()
+    worked_mode_slots: set = set()
+
+    for (call, band, mode), d in logged.items():
+        if d < cutoff:
+            continue
+        country = _prefix_country(call)
+        if country:
+            worked_dxcc.add(country)
+            if band:
+                worked_band_slots.add((country, band))
+            if mode:
+                worked_mode_slots.add((country, mode))
+            # Track US states from cached lookups
+            if country == 'USA':
+                with _cache_lock:
+                    geo = _lookup_cache.get(call)
+                if geo and geo.get('state'):
+                    worked_states.add(geo['state'])
+
+    return worked_dxcc, worked_states, worked_band_slots, worked_mode_slots
+
+
+def _classify_needed(cs: str, band: str, mode: str,
+                     worked_dxcc: set, worked_states: set,
+                     worked_band_slots: set, worked_mode_slots: set) -> set:
+    """Classify what makes a station 'needed'.
+
+    Returns a set of: 'new_dxcc', 'new_state', 'new_bandslot' (or empty).
+    """
+    result: set = set()
+    country = _prefix_country(cs)
+    if not country:
+        return result
+
+    if country not in worked_dxcc:
+        result.add('new_dxcc')
+        # If DXCC is new, band-slot is implicitly new too — but new_dxcc takes priority
+    else:
+        # Check band-slot: worked entity but not on this band or mode
+        b = band.lower()
+        m = mode.upper()
+        if b and (country, b) not in worked_band_slots:
+            result.add('new_bandslot')
+        if m and (country, m) not in worked_mode_slots:
+            result.add('new_bandslot')
+
+    # US state check
+    if country == 'USA':
+        with _cache_lock:
+            geo = _lookup_cache.get(cs)
+        if geo and geo.get('state') and geo['state'] not in worked_states:
+            result.add('new_state')
+
+    return result
+
+
 def _is_worked(cs: str, band: str, mode: str, logged: dict, cutoff: date) -> bool:
     """
-    True if cs was logged on this band (any mode) OR this mode (any band)
-    within the cutoff window.  This matches JTDX filtering behavior —
-    stations already worked on either the current band or current mode
-    are hidden.
+    True if cs was logged on this exact band AND mode within the cutoff window.
+    Matches JTDX dupe-check behavior — only hides stations already worked on
+    the same band+mode combination.
     """
     b = band.lower()
     m = mode.upper()
@@ -620,8 +676,7 @@ def _is_worked(cs: str, band: str, mode: str, logged: dict, cutoff: date) -> boo
             continue
         if d < cutoff:
             continue
-        # Worked on this band (any mode) or this mode (any band)
-        if lb == b or lm == m:
+        if lb == b and lm == m:
             return True
     return False
 
@@ -650,6 +705,17 @@ class AppState:
         self.mqtt_connected: bool          = False
         self._prev_mutual: set = set()     # GUI-thread only
 
+        # Session statistics (cumulative, never expire)
+        self.session_start: datetime       = datetime.now(timezone.utc)
+        self.total_decode_count: int       = 0
+        self.total_spot_count: int         = 0
+        self.peak_mutual: int              = 0
+        self.best_dx_call: str             = ''
+        self.best_dx_km: float             = 0.0
+        self._session_log_baseline: int    = -1   # set on first log load
+        self._snr_heard_samples: list[int] = []
+        self._snr_spot_samples: list[int]  = []
+
         # Propagation engine
         from propagation import PropagationEngine, ANTENNA_DIPOLE, ANTENNA_VERTICAL, ANTENNA_YAGI_3
         _ant_map = {"dipole": ANTENNA_DIPOLE, "vertical": ANTENNA_VERTICAL, "yagi": ANTENNA_YAGI_3}
@@ -670,6 +736,8 @@ class AppState:
                 'mode': mode,
                 'time': datetime.now(timezone.utc),
             }
+            self.total_decode_count += 1
+            self._snr_heard_samples.append(snr)
 
     def set_band_mode(self, band: str, mode: str) -> None:
         with self._lock:
@@ -685,6 +753,8 @@ class AppState:
             if existing is None or ts >= existing['time']:
                 self.spotted_by[cs] = {'snr': snr, 'band': band, 'mode': mode, 'time': ts}
                 self.last_psk = datetime.now(timezone.utc)
+            self.total_spot_count += 1
+            self._snr_spot_samples.append(snr)
 
     def expire_spots(self) -> None:
         cutoff = time.time() - PSK_HEARD_ME_MAX_AGE
@@ -712,6 +782,8 @@ class AppState:
         with self._lock:
             self.logged   = contacts
             self.log_path = desc
+            if self._session_log_baseline < 0:
+                self._session_log_baseline = len(contacts)
 
     def load_log(self, path: str) -> int:
         """Load ADIF or CSV log manually; returns number of contacts."""
@@ -720,6 +792,29 @@ class AppState:
             self.logged   = contacts
             self.log_path = path
         return len(contacts)
+
+    def session_stats(self) -> dict:
+        """Return a snapshot of cumulative session statistics."""
+        with self._lock:
+            dur = (datetime.now(timezone.utc) - self.session_start).total_seconds()
+            dur_min = dur / 60.0 if dur > 0 else 1.0
+            baseline = max(self._session_log_baseline, 0)
+            heard_samples = list(self._snr_heard_samples)
+            spot_samples = list(self._snr_spot_samples)
+            return {
+                'duration_s':       dur,
+                'total_decodes':    self.total_decode_count,
+                'total_spots':      self.total_spot_count,
+                'decodes_per_min':  self.total_decode_count / dur_min,
+                'peak_mutual':      self.peak_mutual,
+                'qsos_this_session': len(self.logged) - baseline,
+                'best_dx_call':     self.best_dx_call,
+                'best_dx_km':       self.best_dx_km,
+                'avg_snr_heard':    sum(heard_samples) / len(heard_samples) if heard_samples else None,
+                'avg_snr_spots':    sum(spot_samples) / len(spot_samples) if spot_samples else None,
+                'best_snr_heard':   max(heard_samples) if heard_samples else None,
+                'worst_snr_heard':  min(heard_samples) if heard_samples else None,
+            }
 
     # -- GUI-thread reader -----------------------------------------------------
 
@@ -764,7 +859,7 @@ def _udp_worker(state: AppState) -> None:
             # JTDX sends '~' as a placeholder in Decode packets — ignore it
             # and use the authoritative mode from the last Status packet
             raw = pkt['mode']
-            mode = (raw if raw and raw != '~' else None) or state.current_mode
+            mode = (raw if raw and raw != '~' else None) or state.current_mode or 'FT8'
             for cs in _callsigns_in(pkt['message']):
                 if cs != MY_CALLSIGN:
                     state.record_heard(cs, pkt['snr'], mode)
@@ -946,6 +1041,11 @@ class HamApp(tk.Tk):
             bg=C['bar_bg'], fg='#44cc44', font=('Courier', 9))
         self._udp_lbl.pack(side='left', padx=(8, 4))
 
+        self._mode_lbl = tk.Label(
+            bar, text='  --  ', bg='#224422', fg='#44ff44',
+            font=('Courier', 12, 'bold'), padx=8, pady=1)
+        self._mode_lbl.pack(side='left', padx=(4, 4))
+
         self._heard_lbl = tk.Label(
             bar, text='heard: 0  |  psk: 0',
             bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
@@ -975,6 +1075,41 @@ class HamApp(tk.Tk):
             bg=C['bar_bg'], fg=C['hdr'], font=('Courier', 9))
         self._psk_lbl.pack(side='right', padx=12)
 
+        # -- Session Statistics bar ---------------------------------------------
+        sbar = tk.Frame(self, bg=C['bar_bg'], pady=2)
+        sbar.pack(fill='x', side='top')
+
+        _sf = ('Courier', 9)
+        _sep_cfg = dict(bg=C['bar_bg'], fg='#444466', font=_sf)
+        _val_cfg = dict(bg=C['bar_bg'], fg=C['hdr'], font=_sf)
+
+        self._stat_time_lbl = tk.Label(sbar, text='Session: 0m', **_val_cfg)
+        self._stat_time_lbl.pack(side='left', padx=(8, 0))
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_decode_lbl = tk.Label(sbar, text='Dec: 0 (0.0/min)', **_val_cfg)
+        self._stat_decode_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_qso_lbl = tk.Label(sbar, text='QSOs: 0', **_val_cfg)
+        self._stat_qso_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_peak_lbl = tk.Label(sbar, text='Peak Mutual: 0', **_val_cfg)
+        self._stat_peak_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_dx_lbl = tk.Label(sbar, text='Best DX: --', **_val_cfg)
+        self._stat_dx_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_snr_lbl = tk.Label(sbar, text='SNR heard: --', **_val_cfg)
+        self._stat_snr_lbl.pack(side='left')
+        tk.Label(sbar, text=' | ', **_sep_cfg).pack(side='left')
+
+        self._stat_psk_snr_lbl = tk.Label(sbar, text='SNR>me: --', **_val_cfg)
+        self._stat_psk_snr_lbl.pack(side='left')
+
         # -- Mutual Spots panel ------------------------------------------------
         mf = tk.LabelFrame(
             self,
@@ -990,18 +1125,18 @@ class HamApp(tk.Tk):
 
         self._mtree = ttk.Treeview(
             mf,
-            columns=('callsign', 'snr', 'hears_me', 'last_heard', 'heard_me', 'band', 'mode', 'state', 'country'),
+            columns=('callsign', 'state', 'country', 'snr', 'hears_me', 'last_heard', 'heard_me', 'band', 'mode'),
             show='headings', selectmode='none', style='Mutual.Treeview')
         for col, lbl, w in [
-            ('callsign',   'Callsign',        125),
+            ('callsign',   'Call',             125),
+            ('state',      'State',             65),
+            ('country',    'Country',          135),
             ('snr',        'SNR (dB)',          80),
             ('hears_me',   'Hears Me',          90),
             ('last_heard', 'Heard Callsign',   125),
             ('heard_me',   'PSK Heard Me',      125),
             ('band',       'Band',              70),
             ('mode',       'Mode',              80),
-            ('state',      'State',             65),
-            ('country',    'Country',          135),
         ]:
             self._mtree.heading(col, text=lbl)
             self._mtree.column(col, width=w, anchor='center', stretch=True)
@@ -1028,20 +1163,21 @@ class HamApp(tk.Tk):
 
         self._ptree = ttk.Treeview(
             pf,
-            columns=('rank', 'callsign', 'score', 'confidence', 'status',
-                     'snr_fwd', 'snr_rev', 'country', 'state', 'recommendation'),
+            columns=('rank', 'callsign', 'state', 'country', 'mode', 'score', 'confidence', 'status',
+                     'snr_fwd', 'snr_rev', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
             ('rank',           '#',              35),
             ('callsign',       'Call',            85),
+            ('state',          'St',              40),
+            ('country',        'DXCC',            80),
+            ('mode',           'Mode',            50),
             ('score',          'Scr',             45),
             ('confidence',     'Conf',            75),
             ('status',         'Status',          85),
             ('snr_fwd',        'S>',              45),
             ('snr_rev',        '<S',              45),
-            ('country',        'DXCC',            80),
-            ('state',          'St',              40),
-            ('recommendation', 'Recommendation', 450),
+            ('recommendation', 'Recommendation', 400),
         ]:
             self._ptree.heading(col, text=lbl)
             stretch = (col == 'recommendation')
@@ -1064,6 +1200,16 @@ class HamApp(tk.Tk):
         # Active connection — bright white on green background
         self._ptree.tag_configure('ACTIVE',   foreground='#ffffff',
                                   background='#1a6b1a')
+
+        # "Needed" tags — applied to both mutual and probability trees
+        for tree in (self._mtree, self._ptree):
+            tree.tag_configure('NEW_DXCC',     foreground='#ff4444',
+                               font=('Courier', 9, 'bold'))
+            tree.tag_configure('NEW_STATE',    foreground='#ff8800',
+                               font=('Courier', 9, 'bold'))
+            tree.tag_configure('NEW_BANDSLOT', foreground='#ffff00')
+            tree.tag_configure('NEW_MUTUAL',   foreground='#44ff44')
+
 
     # -- log file dialog -------------------------------------------------------
 
@@ -1091,7 +1237,13 @@ class HamApp(tk.Tk):
         try:
             self._do_refresh()
         finally:
-            self.after(GUI_REFRESH_MS, self._refresh_loop)
+            # Adaptive refresh: faster in FT4 mode
+            mode = self.state.current_mode
+            if mode == 'FT4':
+                interval = max(GUI_REFRESH_MS // 2, 1500)  # 1.5s minimum
+            else:
+                interval = GUI_REFRESH_MS
+            self.after(interval, self._refresh_loop)
 
     def _do_refresh(self) -> None:
         self.state.expire_heard()
@@ -1099,8 +1251,30 @@ class HamApp(tk.Tk):
         heard, spotted_by, mutual, new_mutual, last_psk, logged, band, cur_mode, mqtt_conn = \
             self.state.snapshot()
 
+        # Track peak mutual count for session stats
+        self.state.peak_mutual = max(self.state.peak_mutual, len(mutual))
+
         has_log = bool(logged)
         cutoff  = (datetime.now(timezone.utc) - timedelta(days=WORKED_CUTOFF_DAYS)).date()
+
+        # -- build worked sets for needed-station highlighting -----------------
+        if has_log:
+            _w_dxcc, _w_states, _w_band_slots, _w_mode_slots = \
+                _build_worked_sets(logged, cutoff)
+        else:
+            _w_dxcc = _w_states = _w_band_slots = _w_mode_slots = set()
+
+        # -- sound alerts for new mutual spots ---------------------------------
+        if new_mutual and SOUND_ENABLED:
+            _any_needed = False
+            for _ncs in new_mutual:
+                _nmode = heard.get(_ncs, {}).get('mode', cur_mode or '')
+                _needs = _classify_needed(
+                    _ncs, band, _nmode, _w_dxcc, _w_states, _w_band_slots, _w_mode_slots)
+                if _needs:
+                    _any_needed = True
+                    break
+            _play_alert('needed' if _any_needed else 'mutual')
 
         # -- mutual treeview ---------------------------------------------------
         now = datetime.now(timezone.utc)
@@ -1110,13 +1284,16 @@ class HamApp(tk.Tk):
             self._sticky[cs] = now
 
         # purge entries that have been gone longer than MUTUAL_STICKY_SECS
+        # FT4 mode uses shorter sticky time (half) since cycles are faster
+        _sticky_secs = MUTUAL_STICKY_SECS // 2 if cur_mode == 'FT4' else MUTUAL_STICKY_SECS
         self._sticky = {
             cs: t for cs, t in self._sticky.items()
-            if (now - t).total_seconds() < MUTUAL_STICKY_SECS
+            if (now - t).total_seconds() < _sticky_secs
         }
 
         self._mtree.delete(*self._mtree.get_children())
         displayed = 0
+        _n_dxcc = _n_state = _n_band = 0
 
         # Sort by: most recently heard first, then most recent PSK Heard Me
         def _mutual_sort_key(cs):
@@ -1174,11 +1351,41 @@ class HamApp(tk.Tk):
                 heard_me_s = f"{m}m {s:02d}s ago" if m else f"{s}s ago"
             else:
                 heard_me_s = '?'
+            # Classify needed status for highlighting
+            _needs = _classify_needed(
+                cs, band, mode, _w_dxcc, _w_states, _w_band_slots, _w_mode_slots)
+            if 'new_dxcc' in _needs:
+                _mtag = ('NEW_DXCC',)
+            elif 'new_state' in _needs:
+                _mtag = ('NEW_STATE',)
+            elif 'new_bandslot' in _needs:
+                _mtag = ('NEW_BANDSLOT',)
+            elif cs in new_mutual:
+                _mtag = ('NEW_MUTUAL',)
+            else:
+                _mtag = ()
             self._mtree.insert('', 'end',
-                               values=(cs, snr_s, hears_s, t_s, heard_me_s, band or '?', mode,
-                                       state_s, country_s))
+                               values=(cs, state_s, country_s, snr_s, hears_s, t_s, heard_me_s,
+                                       band or '?', mode),
+                               tags=_mtag)
             displayed += 1
-        self._mutual_count.set(f"{displayed} new mutual spot{'s' if displayed != 1 else ''}")
+            if _needs:
+                if 'new_dxcc' in _needs:
+                    _n_dxcc += 1
+                if 'new_state' in _needs:
+                    _n_state += 1
+                if 'new_bandslot' in _needs:
+                    _n_band += 1
+
+        # Build status label with needed counts
+        _parts = [f"{displayed} mutual"]
+        if _n_dxcc:
+            _parts.append(f"{_n_dxcc} NEW DXCC")
+        if _n_state:
+            _parts.append(f"{_n_state} NEW STATE")
+        if _n_band:
+            _parts.append(f"{_n_band} NEW BAND")
+        self._mutual_count.set('  |  '.join(_parts))
 
         # -- Contact Probability panel -------------------------------------------
         try:
@@ -1218,20 +1425,36 @@ class HamApp(tk.Tk):
                 # Use ACTIVE tag for stations in direct contact with us
                 tag = 'ACTIVE' if entry['score'] >= 99 else conf
 
+                # Needed classification for highlighting
+                _p_mode = entry.get('mode', cur_mode or '')
+                _p_needs = _classify_needed(
+                    cs, band, _p_mode, _w_dxcc, _w_states, _w_band_slots, _w_mode_slots)
+                if 'new_dxcc' in _p_needs:
+                    _p_need_tag = 'NEW_DXCC'
+                elif 'new_state' in _p_needs:
+                    _p_need_tag = 'NEW_STATE'
+                elif 'new_bandslot' in _p_needs:
+                    _p_need_tag = 'NEW_BANDSLOT'
+                else:
+                    _p_need_tag = ''
+                # Needed tag takes visual priority over confidence tag
+                _p_tags = (_p_need_tag,) if _p_need_tag else (tag,)
+
                 self._ptree.insert('', 'end',
                     values=(
                         rank,
                         cs,
+                        geo.get('state', ''),
+                        geo.get('country', ''),
+                        _p_mode or cur_mode or '?',
                         entry['score'],
                         conf if entry['score'] < 99 else 'ACTIVE',
                         entry['state'],
                         fwd,
                         rev,
-                        geo.get('country', ''),
-                        geo.get('state', ''),
                         entry['recommendation'],
                     ),
-                    tags=(tag,))
+                    tags=_p_tags)
 
             n = len(rankings)
             high_n = sum(1 for r in rankings if r['confidence'] == 'HIGH')
@@ -1239,6 +1462,12 @@ class HamApp(tk.Tk):
             self._prob_count.set(
                 f"{n} station{'s' if n != 1 else ''}  |  "
                 f"{high_n} HIGH  {good_n} GOOD")
+            # Track best DX (farthest station) for session stats
+            for entry in rankings:
+                d_km = entry.get('distance_km', 0) or 0
+                if d_km > self.state.best_dx_km:
+                    self.state.best_dx_km = d_km
+                    self.state.best_dx_call = entry['callsign']
         except Exception as exc:
             self._prob_count.set(f"Predictor error: {exc}")
 
@@ -1299,9 +1528,42 @@ class HamApp(tk.Tk):
         else:
             self._solar_lbl.config(text="Solar: waiting...", fg=C['hdr'])
 
-        # -- band in title bar -------------------------------------------------
+        # -- session statistics bar ---------------------------------------------
+        ss = self.state.session_stats()
+        dur = int(ss['duration_s'])
+        h, m = divmod(dur // 60, 60)
+        self._stat_time_lbl.config(
+            text=f"Session: {h}h {m:02d}m" if h else f"Session: {m}m")
+        self._stat_decode_lbl.config(
+            text=f"Dec: {ss['total_decodes']} ({ss['decodes_per_min']:.1f}/min)")
+        qsos = max(ss['qsos_this_session'], 0)
+        self._stat_qso_lbl.config(text=f"QSOs: {qsos}")
+        self._stat_peak_lbl.config(text=f"Peak Mutual: {ss['peak_mutual']}")
+        if ss['best_dx_call']:
+            dx_km = int(ss['best_dx_km'])
+            self._stat_dx_lbl.config(text=f"Best DX: {ss['best_dx_call']} {dx_km:,}km")
+        snr_parts = []
+        if ss['avg_snr_heard'] is not None:
+            snr_parts.append(f"avg:{ss['avg_snr_heard']:+.0f}")
+        if ss['best_snr_heard'] is not None:
+            snr_parts.append(f"best:{ss['best_snr_heard']:+d}")
+        if ss['worst_snr_heard'] is not None:
+            snr_parts.append(f"worst:{ss['worst_snr_heard']:+d}")
+        self._stat_snr_lbl.config(
+            text=f"SNR heard: {'/'.join(snr_parts)}" if snr_parts else "SNR heard: --")
+        if ss['avg_snr_spots'] is not None:
+            self._stat_psk_snr_lbl.config(text=f"SNR>me: {ss['avg_snr_spots']:+.0f}dB")
+
+        # -- mode indicator + title bar ------------------------------------------
+        _mode_display = cur_mode or '--'
+        if cur_mode == 'FT4':
+            self._mode_lbl.config(text=f' {_mode_display} ', bg='#443300', fg='#ffaa00')
+        elif cur_mode == 'FT8':
+            self._mode_lbl.config(text=f' {_mode_display} ', bg='#224422', fg='#44ff44')
+        else:
+            self._mode_lbl.config(text=f' {_mode_display} ', bg='#222244', fg='#8888ff')
         if band:
-            self.title(f"{MY_CALLSIGN} — Ham Radio Companion  [{band}]  {MY_GRID}")
+            self.title(f"{MY_CALLSIGN} — Ham Radio Companion  [{band} {_mode_display}]  {MY_GRID}")
 
 
 
