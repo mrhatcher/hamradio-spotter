@@ -335,64 +335,133 @@ def _modes_match(m1: str, m2: str) -> bool:
     return m1 == m2
 
 
-def dedupe_prefer_exact_time(records: list[dict], window: int = 1) -> list[dict]:
+def dedupe_prefer_exact_time(records: list[dict], window: int = 15) -> list[dict]:
     """
-    Collapse near-duplicate records (same CALL + QSO_DATE + compatible BAND +
-    compatible MODE, TIME_ON within +/- window minutes) down to one entry.
+    Collapse near-duplicate records down to one entry per real QSO.
 
-    Blank/missing band or mode is treated as a wildcard (matches anything).
+    Two-pass dedup:
+      Pass 1 — Same CALL + QSO_DATE + compatible MODE, TIME_ON within
+               +/- window minutes.  Band is IGNORED in matching (too often
+               blank or inconsistent across logging sources).  The best
+               band value is preserved via merge.
+      Pass 2 — UTC midnight boundary: same CALL + compatible MODE,
+               adjacent dates, combined time within +/- window minutes.
+
+    Blank/missing mode is treated as a wildcard (matches anything).
     When merging, the record with more complete fields wins. Among equally
     complete records, prefers non-rounded seconds over :00 seconds.
 
     Uses dict-based lookup for O(n) average performance.
     """
-    # Index: (call, date) -> list of (time_mins, band, mode, result_index)
-    _idx: dict[tuple[str, str], list[tuple[int, str, str, int]]] = {}
+    result = _dedupe_pass(records, window)
+    # Pass 2: catch UTC midnight boundary duplicates
+    result = _dedupe_midnight_pass(result, window)
+    return result
+
+
+def _merge_into(result: list[dict], matched: int, rec: dict) -> None:
+    """Merge rec into result[matched], preferring more complete fields."""
+    existing = result[matched]
+    e_band = norm_band(existing.get('BAND', ''))
+    r_band = norm_band(rec.get('BAND', ''))
+
+    # Count non-empty fields to decide which record is more complete
+    rec_fields = sum(1 for v in rec.values() if v)
+    exist_fields = sum(1 for v in existing.values() if v)
+
+    # Prefer the record with band populated
+    rec_has_band = bool(r_band) and not bool(e_band)
+    existing_has_band = bool(e_band) and not bool(r_band)
+
+    if rec_has_band or (not existing_has_band and rec_fields > exist_fields):
+        merged = dict(rec)
+        for k, v in existing.items():
+            if v and not merged.get(k):
+                merged[k] = v
+        result[matched] = merged
+    elif existing_has_band or exist_fields > rec_fields:
+        for k, v in rec.items():
+            if v and not existing.get(k):
+                existing[k] = v
+    elif is_round_time(existing) and not is_round_time(rec):
+        merged = dict(rec)
+        for k, v in existing.items():
+            if v and not merged.get(k):
+                merged[k] = v
+        result[matched] = merged
+    else:
+        # Equal completeness — fill blanks from rec
+        for k, v in rec.items():
+            if v and not existing.get(k):
+                existing[k] = v
+
+
+def _dedupe_pass(records: list[dict], window: int) -> list[dict]:
+    """Core dedup: match on CALL + DATE + MODE (band ignored), time within window."""
+    # Index: (call, date) -> list of (time_mins, mode, result_index)
+    _idx: dict[tuple[str, str], list[tuple[int, str, int]]] = {}
     result: list[dict] = []
 
     for rec in records:
         call = rec.get('CALL', '').upper().strip()
         date = rec.get('QSO_DATE', '').strip()
-        band = norm_band(rec.get('BAND', ''))
         mode = norm_mode(rec.get('MODE', ''))
         t = time_to_mins(rec.get('TIME_ON', ''))
 
-        # Search candidates via index (only same call+date)
+        # Search candidates via index (same call+date)
         matched = None
-        for (ct, cb, cm, ri) in _idx.get((call, date), []):
-            if (_bands_match(cb, band)
-                    and _modes_match(cm, mode)
-                    and abs(ct - t) <= window):
+        for (ct, cm, ri) in _idx.get((call, date), []):
+            if _modes_match(cm, mode) and abs(ct - t) <= window:
                 matched = ri
                 break
 
         if matched is None:
             ri = len(result)
             result.append(rec)
-            _idx.setdefault((call, date), []).append((t, band, mode, ri))
+            _idx.setdefault((call, date), []).append((t, mode, ri))
         else:
-            # Merge: fill in blank fields from the other record
-            existing = result[matched]
-            e_band = norm_band(existing.get('BAND', ''))
-            # Prefer the record with band populated
-            rec_has_more = bool(band) and not bool(e_band)
-            existing_has_more = bool(e_band) and not bool(band)
-            if rec_has_more:
-                merged = dict(rec)
-                for k, v in existing.items():
-                    if v and not merged.get(k):
-                        merged[k] = v
-                result[matched] = merged
-            elif existing_has_more:
-                for k, v in rec.items():
-                    if v and not existing.get(k):
-                        existing[k] = v
-            elif is_round_time(existing) and not is_round_time(rec):
-                merged = dict(rec)
-                for k, v in existing.items():
-                    if v and not merged.get(k):
-                        merged[k] = v
-                result[matched] = merged
+            _merge_into(result, matched, rec)
+
+    return result
+
+
+def _dedupe_midnight_pass(records: list[dict], window: int) -> list[dict]:
+    """Catch duplicates that straddle UTC midnight (e.g. 23:55 and 00:02 next day)."""
+    # Index: (call, mode) -> list of (date_ord, time_mins, result_index)
+    _idx: dict[tuple[str, str], list[tuple[int, int, int]]] = {}
+    result: list[dict] = []
+
+    for rec in records:
+        call = rec.get('CALL', '').upper().strip()
+        mode = norm_mode(rec.get('MODE', ''))
+        t = time_to_mins(rec.get('TIME_ON', ''))
+        dord = date_to_ord(rec.get('QSO_DATE', ''))
+        if dord is None:
+            result.append(rec)
+            continue
+
+        matched = None
+        for (cd, ct, ri) in _idx.get((call, mode), []):
+            if abs(cd - dord) == 1:
+                # Adjacent days — check if times are within window across midnight
+                if cd > dord:
+                    diff = (1440 - t) + ct  # rec is earlier day
+                else:
+                    diff = (1440 - ct) + t  # existing is earlier day
+                if diff <= window:
+                    matched = ri
+                    break
+            elif cd == dord and abs(ct - t) <= window:
+                # Same day catch (shouldn't happen after pass 1, but safety net)
+                matched = ri
+                break
+
+        if matched is None:
+            ri = len(result)
+            result.append(rec)
+            _idx.setdefault((call, mode), []).append((dord, t, ri))
+        else:
+            _merge_into(result, matched, rec)
 
     return result
 
