@@ -1503,12 +1503,17 @@ class HamApp(tk.Tk):
 
         self._ptree = ttk.Treeview(
             pf,
-            columns=('rank', 'callsign', 'state', 'country', 'mode', 'score', 'confidence', 'status',
+            columns=('rank', 'callsign', 'path', 'state', 'country', 'mode', 'score', 'confidence', 'status',
                      'snr_fwd', 'snr_rev', 'tx_cycle', 'recommendation'),
             show='headings', selectmode='none', style='Prob.Treeview')
         for col, lbl, w in [
             ('rank',           '#',              35),
             ('callsign',       'Call',            85),
+            # Path: MUT = mutual (you hear them AND they hear you);
+            #       RX  = you hear them only (visible in JTDX);
+            #       TX  = they hear you only (NOT in your JTDX — try calling);
+            #       ·   = neither — predictor knows them from recent activity only.
+            ('path',           'Path',            50),
             ('state',          'St',              40),
             ('country',        'DXCC',            80),
             ('mode',           'Mode',            50),
@@ -1841,6 +1846,21 @@ class HamApp(tk.Tk):
 
                 fwd = f"{entry['heard_snr']:+d}" if entry.get('heard_snr') is not None else '-'
                 rev = f"{entry['spot_snr']:+d}" if entry.get('spot_snr') is not None else '-'
+                # Path asymmetry — clarifies why a station is in this panel.
+                # MUT = both directions confirmed (you hear them AND they hear you).
+                # RX  = you hear them only (JTDX RX will show them).
+                # TX  = they hear you only — phantom from JTDX's perspective.
+                # ·   = neither right now; predictor is tracking past activity.
+                _has_heard = entry.get('heard_snr') is not None
+                _has_spot  = entry.get('spot_snr')  is not None
+                if _has_heard and _has_spot:
+                    path_s = 'MUT'
+                elif _has_heard:
+                    path_s = 'RX'
+                elif _has_spot:
+                    path_s = 'TX'
+                else:
+                    path_s = '·'
                 conf = entry['confidence']
 
                 # Use ACTIVE tag for stations in direct contact with us
@@ -1865,6 +1885,7 @@ class HamApp(tk.Tk):
                     values=(
                         rank,
                         cs,
+                        path_s,
                         geo.get('state', ''),
                         geo.get('country', ''),
                         _p_mode or cur_mode or '?',
