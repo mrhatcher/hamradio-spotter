@@ -1546,6 +1546,11 @@ class HamApp(tk.Tk):
         # Active connection — bright white on green background
         self._ptree.tag_configure('ACTIVE',   foreground='#ffffff',
                                   background='#1a6b1a')
+        # Best-bet flag: station is currently in Mutual Spots above with
+        # BOTH heard SNR and PSK Heard Me numbers populated. Background
+        # only so foreground tags (HIGH/GOOD/NEW_DXCC/etc.) still apply.
+        # Reconfigured on every refresh to flash between two greens.
+        self._ptree.tag_configure('MUTUAL_BEST', background='#0a3a0a')
 
         # "Needed" tags — applied to both mutual and probability trees
         for tree in (self._mtree, self._ptree):
@@ -1827,6 +1832,12 @@ class HamApp(tk.Tk):
                 heard, spotted_by, logged, band, cur_mode, top_n=7,
                 country_lookup=_country_for)
 
+            # Flash the MUTUAL_BEST background between two greens each refresh
+            # so the operator's eye is drawn to true-mutual best-bet rows.
+            self._mut_best_flash = not getattr(self, '_mut_best_flash', False)
+            _mut_best_bg = '#2a7a2a' if self._mut_best_flash else '#0a3a0a'
+            self._ptree.tag_configure('MUTUAL_BEST', background=_mut_best_bg)
+
             self._ptree.delete(*self._ptree.get_children())
             for rank, entry in enumerate(rankings, 1):
                 cs = entry['callsign']
@@ -1880,6 +1891,16 @@ class HamApp(tk.Tk):
                     _p_need_tag = ''
                 # Needed tag takes visual priority over confidence tag
                 _p_tags = (_p_need_tag,) if _p_need_tag else (tag,)
+
+                # Best-bet flag: station IS in Mutual Spots above with
+                # BOTH heard-SNR and PSK-Heard-Me numbers populated.
+                # Layered as background; foreground (confidence/needed)
+                # still applies because MUTUAL_BEST sets only background.
+                _mut_info = heard.get(cs, {})
+                _mut_spot = spotted_by.get(cs, {})
+                if (isinstance(_mut_info.get('snr'), int)
+                        and isinstance(_mut_spot.get('snr'), int)):
+                    _p_tags = ('MUTUAL_BEST',) + _p_tags
 
                 self._ptree.insert('', 'end',
                     values=(
