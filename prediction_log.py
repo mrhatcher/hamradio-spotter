@@ -39,11 +39,19 @@ CREATE TABLE IF NOT EXISTS predictions (
     state           TEXT,
     recommendation  TEXT,
     rank            INTEGER,
+    path            TEXT,
     matched_qso_ts  REAL
 );
 CREATE INDEX IF NOT EXISTS idx_predictions_cs_ts ON predictions(callsign, ts);
 CREATE INDEX IF NOT EXISTS idx_predictions_ts    ON predictions(ts);
 """
+
+# Migrations applied at open. Each entry is (column_name, ALTER statement).
+# `path` was added after the initial release — DBs created earlier need it
+# added in-place. Idempotent: the existence check skips already-present cols.
+_MIGRATIONS: list[tuple[str, str]] = [
+    ('path', "ALTER TABLE predictions ADD COLUMN path TEXT"),
+]
 
 
 class PredictionLog:
@@ -61,7 +69,16 @@ class PredictionLog:
         self._conn.execute("PRAGMA synchronous=NORMAL")
         with self._lock:
             self._conn.executescript(_SCHEMA)
+            self._migrate()
         self.prune_old()
+
+    def _migrate(self) -> None:
+        """Apply any pending column additions to an existing predictions table."""
+        cur = self._conn.execute("PRAGMA table_info(predictions)")
+        existing = {row[1] for row in cur.fetchall()}
+        for col_name, stmt in _MIGRATIONS:
+            if col_name not in existing:
+                self._conn.execute(stmt)
 
     def close(self) -> None:
         with self._lock:
@@ -85,6 +102,7 @@ class PredictionLog:
                 row.get('state'),
                 row.get('recommendation'),
                 row.get('rank'),
+                row.get('path'),
             )
             for row in rows
         ]
@@ -93,8 +111,8 @@ class PredictionLog:
                 """
                 INSERT INTO predictions
                   (ts, callsign, band, mode, score, confidence,
-                   snr_fwd, snr_rev, state, recommendation, rank)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
+                   snr_fwd, snr_rev, state, recommendation, rank, path)
+                VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
                 """,
                 params,
             )
@@ -156,12 +174,18 @@ class PredictionLog:
         since_ts: Optional[float] = None,
         band: Optional[str] = None,
         mode: Optional[str] = None,
+        path: Optional[str] = None,
+        group_by_path: bool = False,
     ) -> dict:
         """Conversion rate per confidence bucket.
 
         For each unique callsign+band+mode within the window we count
         ONE row (the latest), so we're not double-counting a station
         that sat in the panel for many refreshes.
+
+        When `group_by_path=True`, returns a nested dict keyed by
+        confidence then path. Otherwise returns the flat per-confidence
+        view, optionally restricted by `path`.
         """
         where_parts = []
         params: list = []
@@ -174,8 +198,12 @@ class PredictionLog:
         if mode:
             where_parts.append("mode = ?")
             params.append(mode)
+        if path is not None:
+            where_parts.append("path = ?")
+            params.append(path)
         where_sql = ("WHERE " + " AND ".join(where_parts)) if where_parts else ""
 
+        group_cols = "p.confidence, p.path" if group_by_path else "p.confidence"
         sql = f"""
         WITH latest AS (
             SELECT callsign, band, mode,
@@ -184,7 +212,7 @@ class PredictionLog:
             {where_sql}
             GROUP BY callsign, band, mode
         )
-        SELECT p.confidence,
+        SELECT {group_cols},
                COUNT(*)                                            AS total,
                SUM(CASE WHEN p.matched_qso_ts IS NOT NULL THEN 1 ELSE 0 END) AS hits
         FROM predictions p
@@ -193,15 +221,26 @@ class PredictionLog:
          AND COALESCE(p.band,'')  = COALESCE(l.band,'')
          AND COALESCE(p.mode,'')  = COALESCE(l.mode,'')
          AND p.ts = l.latest_ts
-        GROUP BY p.confidence
+        GROUP BY {group_cols}
         """
         with self._lock:
             rows = self._conn.execute(sql, params).fetchall()
-        out: dict[str, dict] = {}
+        if group_by_path:
+            out: dict[str, dict] = {}
+            for conf, p_val, total, hits in rows:
+                pct = (hits / total * 100.0) if total else 0.0
+                # NULL path = pre-migration row. Show as '?' so it doesn't
+                # get conflated with '·' (which is a real path signal).
+                key = p_val if p_val is not None else '?'
+                out.setdefault(conf, {})[key] = {
+                    'total': total, 'hits': hits, 'conversion_pct': pct
+                }
+            return out
+        out_flat: dict[str, dict] = {}
         for conf, total, hits in rows:
             pct = (hits / total * 100.0) if total else 0.0
-            out[conf] = {'total': total, 'hits': hits, 'conversion_pct': pct}
-        return out
+            out_flat[conf] = {'total': total, 'hits': hits, 'conversion_pct': pct}
+        return out_flat
 
     def recent_predictions(self, limit: int = 50) -> list[dict]:
         """Latest N predictions, newest first — for debugging / inspection."""
@@ -209,7 +248,7 @@ class PredictionLog:
             cur = self._conn.execute(
                 """
                 SELECT ts, callsign, band, mode, score, confidence,
-                       snr_fwd, snr_rev, state, recommendation, rank, matched_qso_ts
+                       snr_fwd, snr_rev, state, recommendation, rank, path, matched_qso_ts
                 FROM predictions
                 ORDER BY ts DESC
                 LIMIT ?

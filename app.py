@@ -1905,17 +1905,28 @@ class HamApp(tk.Tk):
             try:
                 _snapshot_rows = []
                 for _rank, _entry in enumerate(rankings, 1):
+                    _heard_snr = _entry.get('heard_snr')
+                    _spot_snr  = _entry.get('spot_snr')
+                    if _heard_snr is not None and _spot_snr is not None:
+                        _path = 'MUT'
+                    elif _heard_snr is not None:
+                        _path = 'RX'
+                    elif _spot_snr is not None:
+                        _path = 'TX'
+                    else:
+                        _path = '·'
                     _snapshot_rows.append({
                         'callsign':       _entry['callsign'],
                         'band':           band,
                         'mode':           _entry.get('mode') or cur_mode,
                         'score':          _entry['score'],
                         'confidence':     _entry['confidence'],
-                        'snr_fwd':        _entry.get('heard_snr'),
-                        'snr_rev':        _entry.get('spot_snr'),
+                        'snr_fwd':        _heard_snr,
+                        'snr_rev':        _spot_snr,
                         'state':          _entry.get('state'),
                         'recommendation': _entry.get('recommendation'),
                         'rank':           _rank,
+                        'path':           _path,
                     })
                 _prediction_log.get_log().snapshot(_snapshot_rows)
             except Exception:
