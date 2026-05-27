@@ -38,7 +38,7 @@ import json
 import paho.mqtt.client as mqtt
 import requests
 import tkinter as tk
-from tkinter import ttk, filedialog
+from tkinter import ttk, filedialog, messagebox
 
 # =============================================================================
 #  CONFIGURATION  — loaded from config.ini (same directory as this script)
@@ -862,6 +862,8 @@ class AppState:
         self.best_dx_call: str             = ''
         self.best_dx_km: float             = 0.0
         self._session_log_baseline: int    = -1   # set on first log load
+        self._jtdx_stale_checked: bool     = False  # one-time staleness warning
+        self._stale_warning_pending: tuple | None = None  # (path, age_hours) for GUI
         self._snr_heard_samples: list[int] = []
         self._snr_spot_samples: list[int]  = []
 
@@ -1180,6 +1182,18 @@ def _log_worker(state: AppState) -> None:
             desc = f"JTDX({len(jtdx_contacts)}) + HRD({len(hrd_contacts)})"
             state.set_logged(merged, desc)
             print(f"[LOG] Merged: {len(merged)} contacts")
+
+            # One-time staleness check: after 2+ session QSOs, warn if JTDX
+            # log hasn't been modified in 24h (likely pointing at wrong file).
+            if not state._jtdx_stale_checked and JTDX_LOG_FILE and jtdx_mtime:
+                baseline = max(state._session_log_baseline, 0)
+                session_qsos = len(merged) - baseline
+                if session_qsos >= 2:
+                    age_hours = (time.time() - jtdx_mtime) / 3600
+                    state._jtdx_stale_checked = True
+                    if age_hours > 24:
+                        print(f"[LOG] JTDX log is {age_hours:.0f}h old — prompting user")
+                        state._stale_warning_pending = (JTDX_LOG_FILE, age_hours)
 
         time.sleep(LOG_RELOAD_INTERVAL)
 
@@ -1568,6 +1582,34 @@ class HamApp(tk.Tk):
             fg='#44cc44')
         print(f"[LOG] Loaded {n} contact(s) from {fname}")
 
+    def _show_stale_jtdx_warning(self, path: str, age_hours: float) -> None:
+        """Warn user that the JTDX log file looks stale; offer to pick a new one."""
+        days = age_hours / 24
+        msg = (
+            f"The JTDX log file hasn't been modified in {days:.1f} day(s).\n\n"
+            f"Current path:\n{path}\n\n"
+            "This may not be the log for your current JTDX session.\n"
+            "Would you like to select the correct log file?"
+        )
+        if messagebox.askyesno("JTDX Log May Be Stale", msg):
+            new_path = filedialog.askopenfilename(
+                title='Select Current JTDX Log File',
+                initialdir=os.path.dirname(path),
+                filetypes=[
+                    ('ADIF log files', '*.adi *.adif'),
+                    ('All files',      '*.*'),
+                ],
+            )
+            if new_path:
+                global JTDX_LOG_FILE
+                JTDX_LOG_FILE = new_path
+                n = self.state.load_log(new_path)
+                fname = os.path.basename(new_path)
+                self._log_lbl.config(
+                    text=f"{fname}  ({n} contact{'s' if n != 1 else ''})",
+                    fg='#44cc44')
+                print(f"[LOG] User selected new JTDX log: {new_path} ({n} contacts)")
+
     # -- periodic refresh ------------------------------------------------------
 
     def _refresh_loop(self) -> None:
@@ -1583,6 +1625,12 @@ class HamApp(tk.Tk):
             self.after(interval, self._refresh_loop)
 
     def _do_refresh(self) -> None:
+        # Check if the log worker flagged a stale JTDX log file
+        pending = self.state._stale_warning_pending
+        if pending is not None:
+            self.state._stale_warning_pending = None
+            self._show_stale_jtdx_warning(*pending)
+
         self.state.expire_heard()
         self.state.expire_spots()
         heard, spotted_by, mutual, new_mutual, last_psk, logged, band, cur_mode, mqtt_conn, slice_states = \
