@@ -1,0 +1,5 @@
+.venv/
+predictions.db
+predictions.db-wal
+predictions.db-shm
+__pycache__/

@@ -529,6 +529,7 @@ def _tx_cycle(mode: str, time_ms: int) -> str:
 # -- Log file loaders (ADIF + CSV) --------------------------------------------
 
 from log_utils import parse_adif_records as _parse_adif_records
+import prediction_log as _prediction_log
 
 
 def _parse_qso_date(date_s: str) -> date:
@@ -981,10 +982,25 @@ class AppState:
     def set_logged(self, contacts: dict, desc: str) -> None:
         """Set the merged contact dict from the log worker."""
         with self._lock:
+            previous_keys = set(self.logged.keys())
             self.logged   = contacts
             self.log_path = desc
-            if self._session_log_baseline < 0:
+            first_load = self._session_log_baseline < 0
+            if first_load:
                 self._session_log_baseline = len(contacts)
+        # Match each NEW (callsign, band, mode) tuple against the rolling
+        # prediction log. Skip the very first load — that's the historical
+        # backlog, not fresh QSOs to validate against predictions.
+        if first_load:
+            return
+        try:
+            new_tuples = set(contacts.keys()) - previous_keys
+            if new_tuples:
+                _plog = _prediction_log.get_log()
+                for (cs, band, mode) in new_tuples:
+                    _plog.match_qso(cs, band=band, mode=mode)
+        except Exception:
+            pass
 
     def load_log(self, path: str) -> int:
         """Load ADIF or CSV log manually; returns number of contacts."""
@@ -1642,6 +1658,7 @@ class HamApp(tk.Tk):
 
         self._mtree.delete(*self._mtree.get_children())
         displayed = 0
+        total_matching = 0
         _n_dxcc = _n_state = _n_band = 0
 
         # Sort by: most recently heard first, then most recent PSK Heard Me
@@ -1714,11 +1731,7 @@ class HamApp(tk.Tk):
             else:
                 _mtag = ()
             _cycle = heard.get(cs, {}).get('tx_cycle', '?')
-            self._mtree.insert('', 'end',
-                               values=(cs, state_s, country_s, snr_s, hears_s, t_s, heard_me_s,
-                                       band or '?', mode, _cycle),
-                               tags=_mtag)
-            displayed += 1
+            total_matching += 1
             if _needs:
                 if 'new_dxcc' in _needs:
                     _n_dxcc += 1
@@ -1726,9 +1739,19 @@ class HamApp(tk.Tk):
                     _n_state += 1
                 if 'new_bandslot' in _needs:
                     _n_band += 1
+            if displayed < 7:
+                self._mtree.insert('', 'end',
+                                   values=(cs, state_s, country_s, snr_s, hears_s, t_s, heard_me_s,
+                                           band or '?', mode, _cycle),
+                                   tags=_mtag)
+                displayed += 1
 
-        # Build status label with needed counts
-        _parts = [f"{displayed} mutual"]
+        # Build status label with needed counts (reflects full filtered set,
+        # not just the 7 shown). "X mutual" shows total; "Y shown" appears
+        # only when the cap clipped the list.
+        _parts = [f"{total_matching} mutual"]
+        if total_matching > displayed:
+            _parts.append(f"{displayed} shown")
         if _n_dxcc:
             _parts.append(f"{_n_dxcc} NEW DXCC")
         if _n_state:
@@ -1748,7 +1771,7 @@ class HamApp(tk.Tk):
                 return _prefix_country(cs)
 
             rankings = self.state.predictor.rank_stations(
-                heard, spotted_by, logged, band, cur_mode, top_n=20,
+                heard, spotted_by, logged, band, cur_mode, top_n=7,
                 country_lookup=_country_for)
 
             self._ptree.delete(*self._ptree.get_children())
@@ -1806,6 +1829,28 @@ class HamApp(tk.Tk):
                         entry['recommendation'],
                     ),
                     tags=_p_tags)
+
+            # Snapshot the displayed top-N into prediction_log for
+            # later calibration against actual QSO outcomes. Wrapped so a
+            # log-store failure can't break the panel.
+            try:
+                _snapshot_rows = []
+                for _rank, _entry in enumerate(rankings, 1):
+                    _snapshot_rows.append({
+                        'callsign':       _entry['callsign'],
+                        'band':           band,
+                        'mode':           _entry.get('mode') or cur_mode,
+                        'score':          _entry['score'],
+                        'confidence':     _entry['confidence'],
+                        'snr_fwd':        _entry.get('heard_snr'),
+                        'snr_rev':        _entry.get('spot_snr'),
+                        'state':          _entry.get('state'),
+                        'recommendation': _entry.get('recommendation'),
+                        'rank':           _rank,
+                    })
+                _prediction_log.get_log().snapshot(_snapshot_rows)
+            except Exception:
+                pass
 
             n = len(rankings)
             high_n = sum(1 for r in rankings if r['confidence'] == 'HIGH')
